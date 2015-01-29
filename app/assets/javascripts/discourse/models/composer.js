@@ -467,14 +467,16 @@ Discourse.Composer = Discourse.Model.extend({
   editPost: function(opts) {
     var post = this.get('post'),
         oldCooked = post.get('cooked'),
-        composer = this;
+        self = this,
+        promise;
 
-    // Update the title if we've changed it
+    // Update the title if we've changed it, otherwise consider it a
+    // successful resolved promise
     if (this.get('title') && post.get('post_number') === 1) {
-
       var topicProps = this.getProperties(Object.keys(_edit_topic_serializer));
-
-      Discourse.Topic.update(this.get('topic'), topicProps);
+      promise = Discourse.Topic.update(this.get('topic'), topicProps);
+    } else {
+      promise = Ember.RSVP.resolve();
     }
 
     post.setProperties({
@@ -485,19 +487,19 @@ Discourse.Composer = Discourse.Model.extend({
     });
     this.set('composeState', CLOSED);
 
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      post.save(function(result) {
+    return promise.then(function() {
+      return post.save(function(result) {
         post.updateFromPost(result);
-        composer.clearState();
-      }, function(error) {
+        self.clearState();
+      }).catch(function(error) {
         var response = $.parseJSON(error.responseText);
         if (response && response.errors) {
-          reject(response.errors[0]);
+          return(response.errors[0]);
         } else {
-          reject(I18n.t('generic_error'));
+          return(I18n.t('generic_error'));
         }
         post.set('cooked', oldCooked);
-        composer.set('composeState', OPEN);
+        self.set('composeState', OPEN);
       });
     });
   },
@@ -530,9 +532,11 @@ Discourse.Composer = Discourse.Model.extend({
       imageSizes: opts.imageSizes,
       cooked: this.getCookedHtml(),
       reply_count: 0,
+      name: currentUser.get('name'),
       display_username: currentUser.get('name'),
       username: currentUser.get('username'),
       user_id: currentUser.get('id'),
+      user_title: currentUser.get('title'),
       uploaded_avatar_id: currentUser.get('uploaded_avatar_id'),
       user_custom_fields: currentUser.get('custom_fields'),
       post_type: Discourse.Site.currentProp('post_types.regular'),
