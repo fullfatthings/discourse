@@ -11,9 +11,9 @@ if ARGV.include?('bbcode-to-md')
   require 'ruby-bbcode-to-md'
 end
 
+require_relative '../../config/environment'
 require_dependency 'url_helper'
 require_dependency 'file_helper'
-
 
 module ImportScripts; end
 
@@ -22,7 +22,6 @@ class ImportScripts::Base
   include ActionView::Helpers::NumberHelper
 
   def initialize
-    require_relative '../../config/environment'
     preload_i18n
 
     @bbcode_to_md = true if ARGV.include?('bbcode-to-md')
@@ -463,7 +462,7 @@ class ImportScripts::Base
     src.close
     tmp.rewind
 
-    Upload.create_for(user_id, tmp, source_filename, File.size(tmp))
+    Upload.create_for(user_id, tmp, source_filename, tmp.size)
   ensure
     tmp.close rescue nil
     tmp.unlink rescue nil
