@@ -31,10 +31,28 @@ de:
   purge_reason: "Stillgelegtes, nicht aktives Konto wurde automatisch gelöscht."
   disable_remote_images_download_reason: "Da nicht mehr genug Plattenplatz vorhanden ist, wurde der Download von Bildern deaktiviert."
   errors:
+    format: '%{attribute} %{message}'
     messages:
       too_long_validation: "darf höchstens %{max} Zeichen lang sein; Du hast %{length} eingegeben."
       invalid_boolean: "Ungültiger Boolescher Wert"
-      taken: "wird bereits verwendet (Groß-/Kleinschreibung wird bei Gruppennamen nicht unterschieden)"
+      accepted: muss angenommen werden
+      blank: darf nicht leer sein
+      present: muss leer sein
+      confirmation: "passt nicht zu %{attribute}"
+      empty: kann nicht leer sein
+      equal_to: muss gleich %{count} sein
+      even: muss gerade sein
+      exclusion: ist reserviert
+      greater_than: muss größer als %{count} sein
+      greater_than_or_equal_to: muss größer oder gleich %{count} sein
+      inclusion: ist nicht in der Liste enthalten
+      invalid: ist gültig
+      less_than: muss weniger als %{count} sein
+      less_than_or_equal_to: muss weniger oder gleich %{count} sein
+      not_a_number: ist keine Zahl
+      not_an_integer: muss eine Ganzzahl sein
+      odd: muss ungerade sein
+      record_invalid: 'Validierung gescheitert: %{errors}'
     embed:
       load_from_remote: "Beim Laden des Beitrags ist ein Fehler aufgetreten."
   bulk_invite:
@@ -797,7 +815,6 @@ de:
     dominating_topic_minimum_percent: "Anteil der Nachrichten eines Themas in Prozent, die ein einzelner Nutzer verfassen darf, bevor dieser Nutzer darauf hingewiesen wird, dass er dieses Thema dominiert."
     suppress_uncategorized_badge: "Zeige kein Abzeichen für unkategorisierte Themen in der Themenliste."
     global_notice: "Zeigt allen Besuchern eine DRINGENDE NOTFALL-NACHRICHT als global sichtbares Banner an. Deaktiviert bei leerer Nachricht. (HTML ist erlaubt.)"
-    enable_names: "Erlaube Benutzern, ihren vollen Namen zu zeigen. Deaktivieren, um alle vollen Namen zu verbergen."
     display_name_on_posts: "Zeige zusätzlich zum @Benutzernamen auch den vollen Namen des Benutzers bei seinen Beiträgen."
     invites_per_page: "Anzahl an Einladungen, die auf der Benutzerseite angezeigt werden."
     short_progress_text_threshold: "Sobald die Anzahl an Beiträgen in einem Thema diese Nummer übersteigt, zeigt der Fortschrittsbalken nur noch die aktuelle Beitragsnummer. Dieser Wert sollte angepasst werden, falls die die Breite des Fortschrittsbalkens verändert wird."

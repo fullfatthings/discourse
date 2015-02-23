@@ -231,10 +231,19 @@ class Topic < ActiveRecord::Base
     posts.order('score desc').limit(1).first
   end
 
+  def has_flags?
+    FlagQuery.flagged_post_actions("active")
+             .where("topics.id" => id)
+             .exists?
+  end
+
   # all users (in groups or directly targetted) that are going to get the pm
   def all_allowed_users
-    # TODO we should probably change this from 3 queries to 1
-    User.where('id in (?)', allowed_users.select('users.id').to_a + allowed_group_users.select('users.id').to_a)
+    # TODO we should probably change this to 1 query
+    allowed_user_ids = allowed_users.select('users.id').to_a
+    allowed_group_user_ids = allowed_group_users.select('users.id').to_a
+    allowed_staff_ids = private_message? && has_flags? ? User.where(moderator: true).pluck(:id).to_a : []
+    User.where('id IN (?)', allowed_user_ids + allowed_group_user_ids + allowed_staff_ids)
   end
 
   # Additional rate limits on topics: per day and private messages per day
@@ -249,13 +258,7 @@ class Topic < ActiveRecord::Base
   end
 
   def fancy_title
-    sanitized_title = title.gsub(/['&\"<>]/, {
-        "'" => '&#39;',
-        '&' => '&amp;',
-        '"' => '&quot;',
-        '<' => '&lt;',
-        '>' => '&gt;',
-      })
+    sanitized_title = ERB::Util.html_escape(title)
 
     return unless sanitized_title
     return sanitized_title unless SiteSetting.title_fancy_entities?
@@ -818,7 +821,7 @@ class Topic < ActiveRecord::Base
   end
 
   def apply_per_day_rate_limit_for(key, method_name)
-    RateLimiter.new(user, "#{key}-per-day:#{Date.today}", SiteSetting.send(method_name), 1.day.to_i)
+    RateLimiter.new(user, "#{key}-per-day", SiteSetting.send(method_name), 1.day.to_i)
   end
 
 end

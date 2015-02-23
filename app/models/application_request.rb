@@ -1,9 +1,21 @@
 class ApplicationRequest < ActiveRecord::Base
-  enum req_type: %i(anon logged_in crawler)
+  enum req_type: %i(http_total
+                    http_2xx
+                    http_background
+                    http_3xx
+                    http_4xx
+                    http_5xx
+                    page_view_crawler
+                    page_view_logged_in
+                    page_view_anon)
 
-  cattr_accessor :autoflush
+  cattr_accessor :autoflush, :autoflush_seconds, :last_flush
   # auto flush if backlog is larger than this
-  self.autoflush = 100
+  self.autoflush = 2000
+
+  # auto flush if older than this
+  self.autoflush_seconds = 5.minutes
+  self.last_flush = Time.now.utc
 
   def self.increment!(type, opts=nil)
     key = redis_key(type)
@@ -12,6 +24,11 @@ class ApplicationRequest < ActiveRecord::Base
 
     autoflush = (opts && opts[:autoflush]) || self.autoflush
     if autoflush > 0 && val >= autoflush
+      write_cache!
+      return
+    end
+
+    if (Time.now.utc - last_flush).to_i > autoflush_seconds
       write_cache!
     end
   end
@@ -22,6 +39,8 @@ class ApplicationRequest < ActiveRecord::Base
       write_cache!(Time.now.utc.yesterday)
       return
     end
+
+    self.last_flush = Time.now.utc
 
     date = date.to_date
 
@@ -82,6 +101,18 @@ class ApplicationRequest < ActiveRecord::Base
     "app_req_#{req_type}#{time.strftime('%Y%m%d')}"
   end
 
+  def self.stats
+    s = HashWithIndifferentAccess.new({})
+
+    self.req_types.each do |key, i|
+      query = self.where(req_type: i)
+      s["#{key}_total"]   = query.sum(:count)
+      s["#{key}_30_days"] = query.where("date > ?", 30.days.ago).sum(:count)
+      s["#{key}_7_days"]  = query.where("date > ?", 7.days.ago).sum(:count)
+    end
+
+    s
+  end
 end
 
 # == Schema Information

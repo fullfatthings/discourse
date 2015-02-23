@@ -18,19 +18,32 @@ describe ApplicationRequest do
   it 'can automatically flush' do
     t1 = Time.now.utc.at_midnight
     freeze_time(t1)
-    inc(:anon)
-    inc(:anon)
-    inc(:anon, autoflush: 3)
+    inc(:http_total)
+    inc(:http_total)
+    inc(:http_total, autoflush: 3)
 
-    ApplicationRequest.first.count.should == 3
+    ApplicationRequest.http_total.first.count.should == 3
+  end
+
+  it 'can flush based on time' do
+    t1 = Time.now.utc.at_midnight
+    freeze_time(t1)
+    ApplicationRequest.write_cache!
+    inc(:http_total)
+    ApplicationRequest.count.should == 0
+
+    freeze_time(t1 + ApplicationRequest.autoflush_seconds + 1)
+    inc(:http_total)
+
+    ApplicationRequest.count.should == 1
   end
 
   it 'flushes yesterdays results' do
     t1 = Time.now.utc.at_midnight
     freeze_time(t1)
-    inc(:anon)
+    inc(:http_total)
     freeze_time(t1.tomorrow)
-    inc(:anon)
+    inc(:http_total)
 
     ApplicationRequest.write_cache!
     ApplicationRequest.count.should == 2
@@ -49,15 +62,15 @@ describe ApplicationRequest do
     time = Time.now.at_midnight
     freeze_time(time)
 
-    3.times { inc(:anon) }
-    2.times { inc(:logged_in) }
-    4.times { inc(:crawler) }
+    3.times { inc(:http_total) }
+    2.times { inc(:http_2xx) }
+    4.times { inc(:http_3xx) }
 
     ApplicationRequest.write_cache!
 
-    ApplicationRequest.anon.first.count.should == 3
-    ApplicationRequest.logged_in.first.count.should == 2
-    ApplicationRequest.crawler.first.count.should == 4
+    ApplicationRequest.http_total.first.count.should == 3
+    ApplicationRequest.http_2xx.first.count.should == 2
+    ApplicationRequest.http_3xx.first.count.should == 4
 
   end
 end

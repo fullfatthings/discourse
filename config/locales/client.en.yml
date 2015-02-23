@@ -167,9 +167,10 @@ en:
 
     bookmarked:
       title: "Bookmark"
+      clear_bookmarks: "Clear Bookmarks"
       help:
-        bookmark: "Click to bookmark this topic"
-        unbookmark: "Click to remove bookmark to this topic"
+        bookmark: "Click to bookmark the first post on this topic"
+        unbookmark: "Click to remove all bookmarks in this topic"
 
     bookmarks:
       not_logged_in: "sorry, you must be logged in to bookmark posts"
@@ -1106,6 +1107,7 @@ en:
         attachment_too_large: "Sorry, the file you are trying to upload is too big (maximum size is {{max_size_kb}}kb)."
         file_too_large: "Sorry, the file you are trying to upload is too big (maximum size is {{max_size_kb}}kb)"
         too_many_uploads: "Sorry, you can only upload one file at a time."
+        too_many_dragged_and_dropped_files: "Sorry, you can only drag & drop up to 10 files at a time."
         upload_not_authorized: "Sorry, the file you are trying to upload is not authorized (authorized extension: {{authorized_extensions}})."
         image_upload_not_allowed_for_new_user: "Sorry, new users can not upload images."
         attachment_upload_not_allowed_for_new_user: "Sorry, new users can not upload attachments."
@@ -1173,6 +1175,7 @@ en:
         people:
           off_topic: "{{icons}} flagged this as off-topic"
           spam: "{{icons}} flagged this as spam"
+          spam_with_url: "{{icons}} flagged <a href='{{postUrl}}'>this as spam</a>"
           inappropriate: "{{icons}} flagged this as inappropriate"
           notify_moderators: "{{icons}} notified moderators"
           notify_moderators_with_url: "{{icons}} <a href='{{postUrl}}'>notified moderators</a>"
@@ -1535,6 +1538,11 @@ en:
         space_free: "{{size}} free"
         uploads: "uploads"
         backups: "backups"
+        traffic_short: "Traffic"
+        traffic: "Application web requests"
+        page_views: "API Requests"
+        page_views_short: "API Requests"
+        show_traffic_report: "Show Detailed Traffic Report"
 
         reports:
           today: "Today"
@@ -1660,6 +1668,15 @@ en:
         all_users: "All Users"
         note_html: "Keep this key <strong>secret</strong>, all users that have it may create arbitrary posts as any user."
 
+      plugins:
+        title: "Plugins"
+        installed: "Installed Plugins"
+        name: "Name"
+        none_installed: "You don't have any plugins installed."
+        version: "Version"
+        change_settings: "Change Settings"
+        howto: "How do I install plugins?"
+
       backups:
         title: "Backups"
         menu:
@@ -1714,6 +1731,7 @@ en:
             confirm: "Are your sure you want to rollback the database to the previous working state?"
 
       export_csv:
+        user_archive_confirm: "Are you sure you want to download your posts?"
         success: "Export initiated, you will be notified via private message when the process is complete."
         failed: "Export failed. Please check the logs."
         rate_limit_error: "Posts can be downloaded once per day, please try again tomorrow."
@@ -1724,6 +1742,10 @@ en:
           screened_email: "Export full screened email list in CSV format."
           screened_ip: "Export full screened IP list in CSV format."
           screened_url: "Export full screened URL list in CSV format."
+
+      invite:
+        button_text: "Send Invites"
+        button_title: "Send Invites"
 
       customize:
         title: "Customize"
@@ -1914,6 +1936,7 @@ en:
             label: "New:"
             ip_address: "IP address"
             add: "Add"
+            filter: "Search"
           roll_up:
             text: "Roll up"
             title: "Creates new subnet ban entries if there are at least 'min_ban_entries_for_roll_up' entries."
@@ -2155,6 +2178,7 @@ en:
           uncategorized: 'Other'
           backups: "Backups"
           login: "Login"
+          plugins: "Plugins"
 
       badges:
         title: Badges
@@ -2264,7 +2288,7 @@ en:
         dismiss_topics: '<b>x</b>, <b>t</b> Dismiss Topics'
       actions:
         title: 'Actions'
-        bookmark_topic: '<b>f</b> Bookmark topic'
+        bookmark_topic: '<b>f</b> Toggle bookmark topic'
         pin_unpin_topic: '<b>shift</b>+<b>p</b> Pin/Unpin topic'
         share_topic: '<b>shift</b>+<b>s</b> Share topic'
         share_post: '<b>s</b> Share post'
@@ -2330,6 +2354,9 @@ en:
         autobiographer:
           name: Autobiographer
           description: Filled user <a href="/my/preferences">profile</a> information
+        anniversary:
+          name: Anniversary
+          description: Active member for a year, posted at least once
         nice_post:
           name: Nice Post
           description: Received 10 likes on a post. This badge can be granted multiple times
