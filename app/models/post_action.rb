@@ -127,13 +127,17 @@ class PostAction < ActiveRecord::Base
                         .where(post_id: post.id)
                         .where(post_action_type_id: PostActionType.flag_types.values)
 
+    trigger_spam = false
     actions.each do |action|
       action.agreed_at = Time.zone.now
       action.agreed_by_id = moderator.id
       # so callback is called
       action.save
       action.add_moderator_post_if_needed(moderator, :agreed, delete_post)
+      @trigger_spam = true if action.post_action_type_id == PostActionType.types[:spam]
     end
+
+    DiscourseEvent.trigger(:confirmed_spam_post, post) if @trigger_spam
 
     update_flagged_posts_count
   end
@@ -179,7 +183,7 @@ class PostAction < ActiveRecord::Base
   end
 
   def add_moderator_post_if_needed(moderator, disposition, delete_post=false)
-    return if related_post.nil?
+    return if related_post.nil? || related_post.topic.nil?
     return if moderator_already_replied?(related_post.topic, moderator)
     message_key = "flags_dispositions.#{disposition}"
     message_key << "_and_deleted" if delete_post
@@ -193,7 +197,7 @@ class PostAction < ActiveRecord::Base
   def self.create_message_for_post_action(user, post, post_action_type_id, opts)
     post_action_type = PostActionType.types[post_action_type_id]
 
-    return unless opts[:message] && [:notify_moderators, :notify_user].include?(post_action_type)
+    return unless opts[:message] && [:notify_moderators, :notify_user, :spam].include?(post_action_type)
 
     title = I18n.t("post_action_types.#{post_action_type}.email_title", title: post.topic.title)
     body = I18n.t("post_action_types.#{post_action_type}.email_body", message: opts[:message], link: "#{Discourse.base_url}#{post.url}")
@@ -206,7 +210,7 @@ class PostAction < ActiveRecord::Base
       raw: body
     }
 
-    if post_action_type == :notify_moderators
+    if [:notify_moderators, :spam].include?(post_action_type)
       opts[:subtype] = TopicSubtype.notify_moderators
       opts[:target_group_names] = "moderators"
     else
@@ -238,28 +242,27 @@ class PostAction < ActiveRecord::Base
       post_action_type_id: post_action_type_id
     }
 
-    action_attributes = {
+    action_attrs = {
       staff_took_action: staff_took_action,
       related_post_id: related_post_id,
       targets_topic: !!targets_topic
     }
 
     # First try to revive a trashed record
-    row_count = PostAction.where(where_attrs)
-                          .with_deleted
-                          .where("deleted_at IS NOT NULL")
-                          .update_all(action_attributes.merge(deleted_at: nil))
+    post_action = PostAction.where(where_attrs)
+                            .with_deleted
+                            .where("deleted_at IS NOT NULL")
+                            .first
 
-    if row_count == 0
-      post_action = create(where_attrs.merge(action_attributes))
+    if post_action
+      post_action.recover!
+      action_attrs.each { |attr, val| post_action.send("#{attr}=", val) }
+      post_action.save
+    else
+      post_action = create(where_attrs.merge(action_attrs))
       if post_action && post_action.errors.count == 0
         BadgeGranter.queue_badge_grant(Badge::Trigger::PostAction, post_action: post_action)
       end
-    else
-      post_action = PostAction.where(where_attrs).first
-
-      # after_commit is not called on an 'update_all' so do the notify ourselves
-      post_action.notify_subscribers
     end
 
     # agree with other flags
@@ -316,7 +319,7 @@ class PostAction < ActiveRecord::Base
 
     %w(like flag bookmark).each do |type|
       if send("is_#{type}?")
-        @rate_limiter = RateLimiter.new(user, "create_#{type}:#{Date.today}", SiteSetting.send("max_#{type}s_per_day"), 1.day.to_i)
+        @rate_limiter = RateLimiter.new(user, "create_#{type}", SiteSetting.send("max_#{type}s_per_day"), 1.day.to_i)
         return @rate_limiter
       end
     end
@@ -405,7 +408,7 @@ class PostAction < ActiveRecord::Base
 
   def enforce_rules
     post = Post.with_deleted.where(id: post_id).first
-    PostAction.auto_close_if_treshold_reached(post.topic)
+    PostAction.auto_close_if_threshold_reached(post.topic)
     PostAction.auto_hide_if_needed(user, post, post_action_type_key)
     SpamRulesEnforcer.enforce!(post.user) if post_action_type_key == :spam
   end
@@ -418,8 +421,8 @@ class PostAction < ActiveRecord::Base
 
   MAXIMUM_FLAGS_PER_POST = 3
 
-  def self.auto_close_if_treshold_reached(topic)
-    return if topic.closed?
+  def self.auto_close_if_threshold_reached(topic)
+    return if topic.nil? || topic.closed?
 
     flags = PostAction.active
                       .flags

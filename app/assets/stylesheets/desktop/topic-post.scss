@@ -558,30 +558,13 @@ video {
   .topic-statuses {
     margin-top: -2px;
   }
-
-  .badge-wrapper {
-    margin: 0 0 0 2px;
-    padding: 0;
-
-    .badge-category {
-      color: $header_primary;
-      padding: 0 0 0 3px;
-      margin-right: 5px;
-    }
-
-    .badge-category-parent {
-      margin: 0;
-      padding: 0px 1px;
-    }
-  }
-
 }
 
 /* override docked header CSS for topics with categories */
-.extra-info.has-category {
+.extra-info.two-rows {
   h1 {
     line-height: 1.1em;
-    margin: 0 0 2px 0;
+    margin: 0;
   }
 }
 

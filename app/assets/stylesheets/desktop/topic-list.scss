@@ -22,13 +22,6 @@
   a.badge-category {
     padding: 3px 12px;
     font-size: 1.143em;
-
-    &.category-dropdown-button {
-      height: 24px;
-      padding: 3px 9px 3px 0;
-      i { height: 20px; }
-    }
-
   }
 
 }
@@ -90,15 +83,11 @@
     position: relative;
     top: -2px;
     &.new-topic {
-      top: 0px;
+      top: -1px;
       padding-left: 5px;
     }
   }
 
-  .category {
-    padding: 0 20px 0 20px;
-    min-width: 80px;
-  }
   .posters {
     // we know there are up to 5 avatars of fixed size
     // will be overridden by media width queries on narrow displays to 1 avatar's width
@@ -200,6 +189,7 @@
   td.latest {
     vertical-align: top;
     padding: 8px;
+    padding-top: 0;
   }
   .last-user-info {
     font-size: 0.857em;
@@ -242,16 +232,12 @@
     }
     a.last-posted-at, a.last-posted-at:visited {
       color: scale-color($primary, $lightness: 50%);
+      font-size: 0.88em;
     }
     .badge {
       font-size: 0.714em;
       top: -1px;
     }
-  }
-
-  .category .badge-category {
-    display: inline-block;
-    margin-top: 1px;
   }
 }
 
@@ -272,8 +258,7 @@
 
 .category-dropdown-menu {
   max-height: 350px;
-  margin-top: 30px;
-  min-width: 152px;
+  min-width: 129px;
 }
 
 #bulk-select {

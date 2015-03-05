@@ -181,7 +181,7 @@ td.flaggers td {
   }
 }
 
-.site-settings-nav {
+.admin-nav {
   width: 18.018%;
   margin-top: 30px;
   .nav-stacked {
@@ -193,7 +193,7 @@ td.flaggers td {
   }
 }
 
-.site-settings-detail {
+.admin-detail {
   width: 76.5765%;
   min-height: 800px;
   margin-left: 0;
@@ -282,13 +282,14 @@ td.flaggers td {
   }
 
   .setting.overridden {
-    input[type=text] {
-      background-color: dark-light-diff($highlight, $secondary, 50%, -60%);
-
-    }
-
     h3 {
       color: scale-color($highlight, $lightness: -50%);
+    }
+  }
+
+  .setting.overridden.string {
+    input[type=text] {
+      background-color: dark-light-diff($highlight, $secondary, 50%, -60%);
     }
   }
 }
@@ -1439,4 +1440,30 @@ tr.not-activated {
 
 .preview {
  margin-top: 5px;
+}
+
+table#user-badges {
+  .reason {
+    max-width: 200px;
+  }
+}
+
+.url-list {
+  .url {
+    border-bottom: 1px solid #ddd;
+    padding: 3px;
+    margin-right: 10px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .urls {
+    margin-bottom: 10px;
+  }
+
+  input[type=text] {
+    width: 90%;
+  }
 }

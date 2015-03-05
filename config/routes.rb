@@ -25,7 +25,13 @@ Discourse::Application.routes.draw do
 
   resources :about
 
-  get "site" => "site#index"
+  get "site" => "site#site"
+  namespace :site do
+    get "settings"
+    get "custom_html"
+    get "banner"
+    get "emoji"
+  end
   get "site_customizations/:key" => "site_customizations#show"
 
   resources :forums
@@ -33,6 +39,8 @@ Discourse::Application.routes.draw do
 
   namespace :admin, constraints: StaffConstraint.new do
     get "" => "admin#index"
+
+    get 'plugins' => 'plugins#index'
 
     resources :site_settings, constraints: AdminConstraint.new do
       collection do
@@ -259,7 +267,7 @@ Discourse::Application.routes.draw do
   get "users/by-external/:external_id" => "users#show"
   get "users/:username/flagged-posts" => "users#show", constraints: {username: USERNAME_ROUTE_FORMAT}
   get "users/:username/deleted-posts" => "users#show", constraints: {username: USERNAME_ROUTE_FORMAT}
-  get "users/:username/badges_json" => "user_badges#username"
+  get "user-badges/:username" => "user_badges#username"
 
   post "user_avatar/:username/refresh_gravatar" => "user_avatars#refresh_gravatar"
   get "letter_avatar/:username/:size/:version.png" => "user_avatars#show_letter", format: false, constraints: { hostname: /[\w\.-]+/ }
@@ -424,6 +432,7 @@ Discourse::Application.routes.draw do
   post "t/:topic_id/change-owner" => "topics#change_post_owners", constraints: {topic_id: /\d+/}
   delete "t/:topic_id/timings" => "topics#destroy_timings", constraints: {topic_id: /\d+/}
   put "t/:topic_id/bookmark" => "topics#bookmark", constraints: {topic_id: /\d+/}
+  put "t/:topic_id/remove_bookmarks" => "topics#remove_bookmarks", constraints: {topic_id: /\d+/}
 
   post "t/:topic_id/notifications" => "topics#set_notifications" , constraints: {topic_id: /\d+/}
 

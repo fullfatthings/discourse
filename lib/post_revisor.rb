@@ -200,6 +200,24 @@ class PostRevisor
   end
 
   def update_post
+    if @fields.has_key?("user_id") && @fields["user_id"] != @post.user_id
+      if prev_owner = User.find_by_id(@post.user_id)
+        prev_owner.user_stat.update_attributes({post_count: prev_owner.post_count - 1}.merge(
+          @post.is_first_post? ? {topic_count: prev_owner.topic_count - 1} : {}
+        ))
+      end
+      if new_owner = User.find_by_id(@fields["user_id"])
+        new_owner.user_stat.update_attributes({post_count: new_owner.post_count + 1}.merge(
+          @post.is_first_post? ? {topic_count: new_owner.topic_count + 1} : {}
+        ))
+      end
+      UserAction.where( target_post_id: @post.id,
+                        user_id: @post.user_id,
+                        action_type: [UserAction::NEW_TOPIC, UserAction::REPLY, UserAction::RESPONSE] )
+                .find_each { |ua| ua.destroy }
+      # UserActionObserver will create new UserAction records for the new owner
+    end
+
     POST_TRACKED_FIELDS.each do |field|
       @post.send("#{field}=", @fields[field]) if @fields.has_key?(field)
     end
@@ -211,6 +229,7 @@ class PostRevisor
     clear_flags_and_unhide_post
 
     @post.extract_quoted_post_numbers
+
     @post_successfully_saved = @post.save(validate: @validate_post)
     @post.save_reply_relationships
   end

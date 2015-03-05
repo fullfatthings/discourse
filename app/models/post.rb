@@ -14,6 +14,7 @@ class Post < ActiveRecord::Base
   include RateLimiter::OnCreateRecord
   include Trashable
   include HasCustomFields
+  include LimitedEdit
 
   # increase this number to force a system wide post rebake
   BAKED_VERSION = 1
@@ -88,7 +89,7 @@ class Post < ActiveRecord::Base
 
   def limit_posts_per_day
     if user.created_at > 1.day.ago && post_number > 1
-      RateLimiter.new(user, "first-day-replies-per-day:#{Date.today}", SiteSetting.max_replies_in_first_day, 1.day.to_i)
+      RateLimiter.new(user, "first-day-replies-per-day", SiteSetting.max_replies_in_first_day, 1.day.to_i)
     end
   end
 
@@ -121,7 +122,7 @@ class Post < ActiveRecord::Base
 
   # The key we use in redis to ensure unique posts
   def unique_post_key
-    "post-#{user_id}:#{raw_hash}"
+    "unique-post-#{user_id}:#{raw_hash}"
   end
 
   def store_unique_post_key
@@ -132,7 +133,7 @@ class Post < ActiveRecord::Base
 
   def matches_recent_post?
     post_id = $redis.get(unique_post_key)
-    post_id != nil and post_id != id
+    post_id != nil and post_id.to_i != id
   end
 
   def raw_hash
@@ -524,14 +525,6 @@ class Post < ActiveRecord::Base
     end
   end
 
-  def edit_time_limit_expired?
-    if created_at && SiteSetting.post_edit_time_limit.to_i > 0
-      created_at < SiteSetting.post_edit_time_limit.to_i.minutes.ago
-    else
-      false
-    end
-  end
-
   private
 
   def parse_quote_into_arguments(quote)
@@ -619,4 +612,5 @@ end
 #  idx_posts_user_id_deleted_at             (user_id)
 #  index_posts_on_reply_to_post_number      (reply_to_post_number)
 #  index_posts_on_topic_id_and_post_number  (topic_id,post_number) UNIQUE
+#  index_posts_on_user_id_and_created_at    (user_id,created_at)
 #

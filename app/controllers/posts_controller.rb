@@ -70,6 +70,8 @@ class PostsController < ApplicationController
       user = User.find(params[:user_id].to_i)
       request['u'] = user.username_lower if user
     end
+
+    guardian.ensure_can_see!(post)
     redirect_to post.url
   end
 
@@ -283,7 +285,9 @@ class PostsController < ApplicationController
       PostAction.remove_act(current_user, post, PostActionType.types[:bookmark])
     end
 
-    render nothing: true
+    tu = TopicUser.get(post.topic, current_user)
+
+    render_json_dump(topic_bookmarked: tu.try(:bookmarked))
   end
 
   def wiki

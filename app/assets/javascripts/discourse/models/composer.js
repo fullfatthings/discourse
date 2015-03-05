@@ -328,36 +328,6 @@ Discourse.Composer = Discourse.Model.extend({
     Discourse.KeyValueStore.set({ key: 'composer.showPreview', value: this.get('showPreview') });
   },
 
-  importQuote: function() {
-    var postStream = this.get('topic.postStream'),
-        postId = this.get('post.id');
-
-    if (!postId && postStream) {
-      postId = postStream.get('firstPostId');
-    }
-
-    // If we're editing a post, fetch the reply when importing a quote
-    if (this.get('editingPost')) {
-      var replyToPostNumber = this.get('post.reply_to_post_number');
-      if (replyToPostNumber) {
-        var replyPost = postStream.get('posts').findBy('post_number', replyToPostNumber);
-        if (replyPost) {
-          postId = replyPost.get('id');
-        }
-      }
-    }
-
-    // If there is no current post, use the post id from the stream
-    if (postId) {
-      this.set('loading', true);
-      var composer = this;
-      return Discourse.Post.load(postId).then(function(post) {
-        composer.appendText(Discourse.Quote.build(post, post.get('raw')));
-        composer.set('loading', false);
-      });
-    }
-  },
-
   /*
      Open a composer
 
@@ -472,7 +442,10 @@ Discourse.Composer = Discourse.Model.extend({
 
     // Update the title if we've changed it, otherwise consider it a
     // successful resolved promise
-    if (this.get('title') && post.get('post_number') === 1) {
+    if (this.get('title') &&
+        post.get('post_number') === 1 &&
+        this.get('topic.details.can_edit')) {
+
       var topicProps = this.getProperties(Object.keys(_edit_topic_serializer));
       promise = Discourse.Topic.update(this.get('topic'), topicProps);
     } else {
@@ -559,6 +532,7 @@ Discourse.Composer = Discourse.Model.extend({
       });
     }
 
+
     // If we're in a topic, we can append the post instantly.
     if (postStream) {
       // If it's in reply to another post, increase the reply count
@@ -566,7 +540,12 @@ Discourse.Composer = Discourse.Model.extend({
         post.set('reply_count', (post.get('reply_count') || 0) + 1);
         post.set('replies', []);
       }
-      if (!postStream.stagePost(createdPost, currentUser)) {
+
+      // We do not stage posts in mobile view, we do not have the "cooked"
+      // Furthermore calculating cooked is very complicated, especially since
+      // we would need to handle oneboxes and other bits that are not even in the
+      // engine, staging will just cause a blank post to render
+      if (!_.isEmpty(createdPost.get('cooked')) && !postStream.stagePost(createdPost, currentUser)) {
 
         // If we can't stage the post, return and don't save. We're likely currently
         // staging a post.

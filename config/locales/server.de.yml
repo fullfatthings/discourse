@@ -20,11 +20,6 @@ de:
     short_date_no_year: "DD. MMM"
     short_date: "DD. MMM YYYY"
     long_date: "DD. MMMM YYYY, H:mm"
-  time:
-    formats:
-      short: "%d. %m. %Y"
-      short_no_year: "%-d. %B"
-      date_only: "%-d. %b %Y"
   title: "Discourse"
   topics: "Themen"
   posts: "Beiträge"
@@ -36,10 +31,36 @@ de:
   purge_reason: "Stillgelegtes, nicht aktives Konto wurde automatisch gelöscht."
   disable_remote_images_download_reason: "Da nicht mehr genug Plattenplatz vorhanden ist, wurde der Download von Bildern deaktiviert."
   errors:
+    format: '%{attribute} %{message}'
     messages:
       too_long_validation: "darf höchstens %{max} Zeichen lang sein; Du hast %{length} eingegeben."
       invalid_boolean: "Ungültiger Boolescher Wert"
-      taken: "wird bereits verwendet (Groß-/Kleinschreibung wird bei Gruppennamen nicht unterschieden)"
+      taken: "wird bereits verwendet"
+      accepted: muss angenommen werden
+      blank: darf nicht leer sein
+      present: muss leer sein
+      confirmation: "passt nicht zu %{attribute}"
+      empty: kann nicht leer sein
+      equal_to: muss gleich %{count} sein
+      even: muss gerade sein
+      exclusion: ist reserviert
+      greater_than: muss größer als %{count} sein
+      greater_than_or_equal_to: muss größer oder gleich %{count} sein
+      inclusion: ist nicht in der Liste enthalten
+      invalid: ist gültig
+      less_than: muss weniger als %{count} sein
+      less_than_or_equal_to: muss weniger oder gleich %{count} sein
+      not_a_number: ist keine Zahl
+      not_an_integer: muss eine Ganzzahl sein
+      odd: muss ungerade sein
+      record_invalid: 'Validierung gescheitert: %{errors}'
+      restrict_dependent_destroy:
+        one: "Kann wegen einer bereits existenten Abhängigkeit zu %{record} nicht gelöscht werden"
+      other_than: "muss von %{count} verschieden sein"
+    template:
+      header:
+        one: '%{count} Fehler verhindern, dass %{model} gespeichert wird.'
+        other: '%{count} Fehler verhindern, dass %{model} gespeichert wird.'
     embed:
       load_from_remote: "Beim Laden des Beitrags ist ein Fehler aufgetreten."
   bulk_invite:
@@ -107,6 +128,7 @@ de:
     latest: "Aktuelle Themen"
     hot: "Angesagte Themen"
   too_late_to_edit: "Dieser Beitrag wurde vor zu langer Zeit erstellt. Er kann nicht mehr bearbeitet oder gelöscht werden."
+  excerpt_image: "Bild"
   groups:
     errors:
       can_not_modify_automatic: "Du kannst eine automatisch verwaltete Gruppe nicht verändern."
@@ -152,14 +174,6 @@ de:
       Hast du darüber nachgedacht **[besuche dein Benutzerprofil](%{profile_path})** und ein eigenes Bild hochzuladen?
 
       Es ist einfacher gemeinschaftlichen Diskussionen zu folgen und interessante Leute zu finden, wenn jeder ein eigenes Avatar hat.
-    sequential_replies: |
-      ### Versuche, mehreren Beitragen gleichzeitig zu antworten
-
-      Statt mehrmals hintereinander in einem Thema zu antworten, versuche eventuell, einen einzigen Beitrag zu verfassen, der Zitate oder @name Verweise auf vorherige Antworten enthält.
-
-      Du kannst deine letzte Antwort bearbeiten und ein Zitat hinzufügen, indem Du den jeweiligen Text markierst und dann auf <b>Antwort zitieren</b> klickst.
-
-      Es ist für jeden einfacher, Themen zu lesen, die anstelle vieler kleiner Antworten etwas weniger tiefgründigere Antworten enthalten.
     dominating_topic: |
       ### Lass auch andere die Konversation mitgestalten
 
@@ -361,6 +375,7 @@ de:
       title: 'Reklame'
       description: 'Dieser Beitrag besteht effektiv nur aus Werbung, die nicht als solche ausgewiesen ist. Er trägt nichts zum aktuellen Gespräch bei.'
       long_form: 'dies als Spam gemeldet'
+      email_body: "%{link}\n\n%{message}"
     inappropriate:
       title: 'Unangemessen'
       description: 'Dieser Beitrag enthält Inhalte, die eine vernünftige Person als anstößig, beleidigend oder <a href="/guidelines">unsere Richtlinien verletzend</a> auffassen würde.'
@@ -432,7 +447,7 @@ de:
       xaxis: "Tag"
       yaxis: "Anzahl der Besuche"
     signups:
-      title: "Benutzer"
+      title: "Neue Benutzer"
       xaxis: "Tag"
       yaxis: "Zahl neuer Nutzer"
     topics:
@@ -502,6 +517,40 @@ de:
       title: "Top verwiesene Themen"
       xaxis: "Themen"
       num_clicks: "Klicks"
+    page_view_anon_reqs:
+      title: "Anonym"
+      xaxis: "Tag"
+      yaxis: "Anonyme API-Anforderungen"
+    page_view_logged_in_reqs:
+      title: "Angemeldet"
+      xaxis: "Tag"
+    page_view_crawler_reqs:
+      xaxis: "Tag"
+    page_view_total_reqs:
+      title: "Gesamt"
+      xaxis: "Tag"
+      yaxis: "Gesamte API-Anforderungen"
+    http_background_reqs:
+      title: "Hintergrund"
+      xaxis: "Tag"
+    http_2xx_reqs:
+      title: "Status 2xx (OK)"
+      xaxis: "Tag"
+      yaxis: "Erfolgreiche Anforderungen (Status 2xx)"
+    http_3xx_reqs:
+      xaxis: "Tag"
+    http_4xx_reqs:
+      title: "HTTP 4xx (Client-Fehler)"
+      xaxis: "Tag"
+      yaxis: "Client-Fehler (Status 4xx)"
+    http_5xx_reqs:
+      title: "HTTP 5xx (Server-Fehler)"
+      xaxis: "Tag"
+      yaxis: "Server-Fehler (Status 5xx)"
+    http_total_reqs:
+      title: "Gesamt"
+      xaxis: "Tag"
+      yaxis: "Gesamte Anforderungen"
   dashboard:
     rails_env_warning: "Dein Server läuft im %{env}-Modus."
     ruby_version_warning: "Du verwendest eine Version von Ruby 2.0.0, die für Probleme bekannt ist. Aktualisiere auf Patchlevel 247 oder höher."
@@ -520,6 +569,7 @@ de:
     s3_backup_config_warning: 'Der Server ist so konfiguriert, dass Datensicherungen auf S3 geladen werden, aber mindestens einer der folgenden Einstellungen: s3_access_key_id, s3_secret_access_key or s3_backup_bucket ist nicht festgelegt. Gehe Sie zu <a href="/admin/site_settings">den Seiteneinstellungen</a> und aktualisieren Sie die Einstellungen. <a href="http://meta.discourse.org/t/how-to-set-up-image-uploads-to-s3/7229" target="_blank">Siehe "Wie konfiguriere ich das Hochladen von Bildern zu S3?" um mehr darüber zu erfahren</a>.'
     image_magick_warning: 'Der Server wurde konfiguriert um Vorschaubilder von grossen Bildern zu erstellen, aber ImageMagick ist nicht installiertd. Installiere ImageMagick mit deinem bevorzugten Packetmanager oder besuche <a href="http://www.imagemagick.org/script/binary-releases.php" target="_blank">um das aktuelle Paket herunterzuladen</a>.'
     failing_emails_warning: 'Es konnten insgesamt %{num_failed_jobs} Mails nicht versendet werden. Bitte überprüfe die Mailserver-Einstellungen in config/discourse.conf. Siehe auch: <a href="/sidekiq/retries" target="_blank">Fehlgeschlagene Jobs in Sidekiq</a>.'
+    default_logo_warning: "Richte das Logo für deine Seite ein. Konfiguriere dafür logo_url, logo_small_url, und favicon_url unter <a href='/admin/site_settings'>Website-Einstellungen</a>."
     title_nag: "Gib einen Namen für deine Website ein. Aktualisiere dazu den „title“ in den <a href='/admin/site_settings'>Einstellungen</a>."
     site_description_missing: "Gib eine kurze Beschreibung deiner Website ein, die in Suchergebnissen angezeigt werden soll. Aktualisiere dazu die „site_description“ in den <a href='/admin/site_settings'>Einstellungen</a>."
     consumer_email_warning: "Deine Seite verwendet Gmail (oder einen anderen für Endkunden gedachten Mailserver) um E-Mails zu versenden. <a href='http://support.google.com/a/bin/answer.py?hl=en&answer=166852' target='_blank'>Gmail hat eine Schranke bezüglich des Sendens von E-Mails</a>. Um die E-Mail-Zustellung zu gewährleisten, solltest du die Verwendung eines anderen E-Mail-Diensts in Erwägung ziehen."
@@ -571,6 +621,7 @@ de:
     allow_duplicate_topic_titles: "Erlaube Themen mit identischen und doppelten Titeln."
     unique_posts_mins: "Minuten, nach denen ein Nutzer denselben Inhalt noch einmal posten kann."
     educate_until_posts: "Zeige das Hilfe-Panel im Editor sobald ein Nutzer einen seiner ersten (n) Beiträge zu schreiben beginnt."
+    contact_email: "Die E-Mail-Adresse des Hauptverantwortlichen dieser Seite. Wird verwendet um kritische Benachrichtigungen wie beispielsweise unbearbeitete Meldungen, als auch solche die via /about Kontaktformular eintreffen. "
     queue_jobs: "NUR FÜR ENTWICKLER! ACHTUNG! Benutze Sidekiq zur Ausführung von Jobs. Wenn dies abgeschaltet wird, dann wird die Seite nicht mehr richtig funktionieren!"
     crawl_images: "Lade Bilder von fremden URLs herunter, um ihre Höhe und Breite zu bestimmen."
     download_remote_images_to_local: "Lade eine Kopie von extern gehosteten Bildern herunter und ersetze Links in Beiträgen entsprechend; dies verhindert defekte Bilder."
@@ -630,7 +681,6 @@ de:
     enable_noscript_support: "Aktiviere standard Suchmaschinen-Webcrawler Unterstützung durch den noscript Tag"
     allow_moderators_to_create_categories: "Erlaube Moderatoren neue Kategorien zu erstellen"
     cors_origins: "Erlaubte Adressen für Cross-Origin-Requests (CORS). Jede Adresse muss http:// oder https:// enthalten. Die Umgebungsvariable DISCOURSE_ENABLE_CORS muss gesetzt sein, um CORS zu aktivieren."
-    top_menu: "Bestimme, welche Navigationselemente in welcher Reihenfolge auftauchen. Beispiel: latest|new|unread|starred|categories|top|read|posted"
     post_menu: "Bestimme, welche Funktionen in welcher Reihenfolge im Beitragsmenü auftauchen. Beispiel: like|edit|flag|delete|share|bookmark|reply"
     post_menu_hidden_items: "Die Einträge im Menü eines Beitrags, die standardmäßig hinter einer erweiterbaren Ellipse versteckt werden sollen."
     share_links: "Bestimme, welche Dienste in welcher Reihenfolge im Teilen-Dialog auftauchen."
@@ -664,9 +714,7 @@ de:
     max_username_length: "Maximale Länge für Benutzernamen in Zeichen. WARNUNG: EXISTIERENDE BENUTZER, DEREN BENUTZERNAMEN LÄNGER SIND, WERDEN DIE WEBSITE NICHT MEHR BENUTZEN KÖNNEN."
     min_password_length: "Minimale Länge des Passworts."
     block_common_passwords: "Erlaube kein Passwort unter den 10000 meist verwendeten Passwörter."
-    enable_sso_provider: "Aktiviere das Discourse SSO Protokoll unter /session/sso_provider - dazu muss sso_secret gesetzt sein."
     sso_url: "URL des Single Sign On Endpunkts"
-    sso_secret: "Geheime Zeichenkette, die für die Ver-/Entschlüsselung von SSO-Informationen verwendet wird. Stell sicher, dass er 10 Zeichen oder länger ist."
     sso_overrides_email: "Überschreibt lokale mit externer E-Mail-Adresse aus den SSO Daten (WARNUNG: es können dennoch Unterschiede auf Grund von Normalisierung lokaler E-Mail-Adressen auftreten)"
     sso_overrides_username: "Überschreibt lokale Benutzernamen mit externen Seiten-Usernamen von SSO Daten (WARNUNG: Diskrepanzen können aufgrund von Unterschieden in Benutzernamenlängen/-anforderungen, auftreten)"
     sso_overrides_name: "Überschreibt lokalen Namen mit Namen der externen Seite aus SSO Daten (WARNUNG: Diskrepanzen können aufgrund von Normalisierung von lokalen Namen auftreten)"
@@ -703,9 +751,9 @@ de:
     max_flags_per_day: "Maximale Anzahl der Meldungen pro Nutzer pro Tag."
     max_bookmarks_per_day: "Maximale Anzahl der Lesezeichen pro Nutzer pro Tag."
     max_edits_per_day: "Maximale Anzahl der Bearbeitungen pro Nutzer pro Tag."
-    max_stars_per_day: "Maximale Anzahl der Themen, die ein User pro Tag favorisieren kann."
     max_topics_per_day: "Maximale Anzahl der Themen, die ein Nutzer pro Tag erstellen kann."
     max_private_messages_per_day: "Maximale Zahl privater Nachrichten, die ein Nutzer pro Tag verschicken kann."
+    max_invites_per_day: "Maximale Zahl an Einladungen, die ein Nutzer pro Tag verschicken kann."
     suggested_topics: "Anzahl der empfohlenen Themen am Ende eines Themas."
     limit_suggested_to_category: "Zeige nur Themen der aktuellen Kategorie in vorgeschlagenen Themen."
     clean_up_uploads: "Lösche verwaiste Uploads, um illegales Hosting zu vermeiden. ACHTUNG: Du solltest ein Backup deines /uploads Verzeichnisses erstellen, bevor Du diese Funktion aktivierst."
@@ -804,7 +852,6 @@ de:
     dominating_topic_minimum_percent: "Anteil der Nachrichten eines Themas in Prozent, die ein einzelner Nutzer verfassen darf, bevor dieser Nutzer darauf hingewiesen wird, dass er dieses Thema dominiert."
     suppress_uncategorized_badge: "Zeige kein Abzeichen für unkategorisierte Themen in der Themenliste."
     global_notice: "Zeigt allen Besuchern eine DRINGENDE NOTFALL-NACHRICHT als global sichtbares Banner an. Deaktiviert bei leerer Nachricht. (HTML ist erlaubt.)"
-    enable_names: "Erlaube Benutzern, ihren vollen Namen zu zeigen. Deaktivieren, um alle vollen Namen zu verbergen."
     display_name_on_posts: "Zeige zusätzlich zum @Benutzernamen auch den vollen Namen des Benutzers bei seinen Beiträgen."
     invites_per_page: "Anzahl an Einladungen, die auf der Benutzerseite angezeigt werden."
     short_progress_text_threshold: "Sobald die Anzahl an Beiträgen in einem Thema diese Nummer übersteigt, zeigt der Fortschrittsbalken nur noch die aktuelle Beitragsnummer. Dieser Wert sollte angepasst werden, falls die die Breite des Fortschrittsbalkens verändert wird."
@@ -825,6 +872,8 @@ de:
     enable_cdn_js_debugging: "Ermöglicht die Anzeige vollständiger Fehler auf /logs, indem alle eingebetteten JavaScripts Cross-Origin Zugriffsberechtigungen erhalten."
     show_create_topics_notice: "Administratoren eine Warnmeldung anzeigen, wenn im Forum weniger als 5 öffentlich sichtbare Themen existieren."
     vacuum_db_days: "Führe VACUUM FULL ANALYZE aus, um nach Migrationen Speicher in der Datenbank zurückzugewinnen (zum Deaktivieren auf 0 setzen)"
+    enable_emoji: "Aktiviere emoji"
+    emoji_set: "Wie magst du dein emoji?"
     errors:
       invalid_email: "Ungültige E-Mail-Ad­res­se"
       invalid_username: "Es gibt keinen Benutzer mit diesem Nutzernamen."
@@ -856,6 +905,11 @@ de:
       category: 'Kategorien'
       topic: 'Ergebnisse'
       user: 'Benutzer'
+  sso:
+    not_found: "Account kann nicht gefunden oder erstellt werden, kontaktiere den Administrator."
+    account_not_approved: "Der Account wartet auf seine Überprüfung. Du bekommst eine E-Mail Benachrichtigung wenn er überprüft wurde."
+    unknown_error: "Die Informationen konnten nicht aktualisiert werden, kontaktiere den Administrator."
+    timeout_expired: "Zeitüberschreitung beim Login. Bitte versuche dich erneut einzuloggen."
   original_poster: "Autor des ersten Beitrags"
   most_posts: "Autor der meisten Beiträge"
   most_recent_poster: "Autor des jüngsten Beitrags"
@@ -872,6 +926,10 @@ de:
       other: "Ich hab %{count} Beiträge in ein vorhandenes Thema verschoben: %{topic_link}"
   change_owner:
     post_revision_text: "Eigentümer geändert von %{old_user} zu %{new_user}"
+  emoji:
+    errors:
+      name_already_exists: "Es tut uns leid, der Name '%{name}' wird schon von einem anderen emoji verwendet."
+      error_while_storing_emoji: "Es tut uns leid, es gab einen Fehler beim Speichern des emoji."
   topic_statuses:
     archived_enabled: "Dieses Thema ist nun archiviert. Es ist eingefroren und kann in keiner Weise mehr verändert werden."
     archived_disabled: "Dieses Thema wurde aus dem Archiv geholt. Es ist nicht länger eingefroren und kann verändert werden."
@@ -920,6 +978,7 @@ de:
     new_registrations_disabled: "Leider können derzeit keine neuen Konten registriert werden."
     password_too_long: "Passwörter sind beschränkt auf 200 Zeichen."
     missing_user_field: "Sie haben nicht alle Benutzerfelder ausgefüllt"
+    close_window: "Authentifizierung abgeschlossen. Schließe das Fenster um fortzufahren."
   user:
     no_accounts_associated: "Es sind keine Konten zugeordnet"
     username:
@@ -1019,6 +1078,7 @@ de:
       other: "%{count} Markierungen warten auf Bearbeitung"
   flag_reasons:
     spam: "Dein Beitrag wurde als **Spam** geflaggt: Die Community denkt, dass es sich um Werbung handelt und nicht nützlich oder für das Diskussionsthema relevant ist."
+    notify_moderators: "Die Community denkt, dass etwas an deinem Beitrag das Eingreifen eines Moderator erfordert."
   flags_dispositions:
     agreed: "Danke, dass du uns Bescheid gegeben hast. Wir sind auch der Meinung, dass es ein Problem gibt und sehen uns das an."
     agreed_and_deleted: "Danke, dass du uns Bescheid gegeben hast. Wir waren auch der Meinung, dass es ein Problem gibt und haben den Beitrag gelöscht."
@@ -1320,10 +1380,7 @@ de:
     unauthorized: "Entschuldigung, die Datei die Du hochladen möchtest ist nicht erlaubt (erlaubte Dateiendungen sind: %{authorized_extensions})."
     pasted_image_filename: "Hinzugefügtes Bild"
     store_failure: "Hochladen von #%{upload_id} für Benutzer #%{user_id} ist fehlgeschlagen."
-    attachments:
-      too_large: "Entschuldigung, die Datei die Du hochladen möchtest ist zu groß (maximale Dateigröße ist %{max_size_kb}%KB)."
     images:
-      too_large: "Entschuldigung, das Bild das Du hochladen möchtest ist zu groß (maximale Dateigröße ist %{max_size_kb}%KB). Bitte verkleinere es und versuche es erneut."
       fetch_failure: "Sorry, there has been an error while fetching the image."
       unknown_image_type: "Entschuldigung, aber die Datei die Du hochladen möchtest scheint kein Bild zu sein."
       size_not_found: "Entschuldige, aber wir konnten die Grösse des Bildes nicht feststellen. Vielleicht ist das Bild defekt?"

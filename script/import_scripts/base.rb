@@ -11,9 +11,9 @@ if ARGV.include?('bbcode-to-md')
   require 'ruby-bbcode-to-md'
 end
 
+require_relative '../../config/environment'
 require_dependency 'url_helper'
 require_dependency 'file_helper'
-
 
 module ImportScripts; end
 
@@ -22,7 +22,6 @@ class ImportScripts::Base
   include ActionView::Helpers::NumberHelper
 
   def initialize
-    require_relative '../../config/environment'
     preload_i18n
 
     @bbcode_to_md = true if ARGV.include?('bbcode-to-md')
@@ -81,6 +80,7 @@ class ImportScripts::Base
 
     update_bumped_at
     update_last_posted_at
+    update_last_seen_at
     update_feature_topic_users
     update_category_featured_topics
     update_topic_count_replies
@@ -101,7 +101,6 @@ class ImportScripts::Base
       min_private_message_post_length: 1,
       min_private_message_title_length: 1,
       allow_duplicate_topic_titles: true,
-      default_digest_email_frequency: '',
       disable_emails: true
     }
 
@@ -463,7 +462,7 @@ class ImportScripts::Base
     src.close
     tmp.rewind
 
-    Upload.create_for(user_id, tmp, source_filename, File.size(tmp))
+    Upload.create_for(user_id, tmp, source_filename, tmp.size)
   ensure
     tmp.close rescue nil
     tmp.unlink rescue nil
@@ -507,6 +506,14 @@ class ImportScripts::Base
     SQL
 
     User.exec_sql(sql)
+  end
+
+  # scripts that are able to import last_seen_at from the source data should override this method
+  def update_last_seen_at
+    puts "", "updating last seen at on users"
+
+    User.exec_sql("UPDATE users SET last_seen_at = created_at WHERE last_seen_at IS NULL")
+    User.exec_sql("UPDATE users SET last_seen_at = last_posted_at WHERE last_posted_at IS NOT NULL")
   end
 
   def update_feature_topic_users
@@ -559,6 +566,12 @@ class ImportScripts::Base
       u.user_stat.save!
       progress_count += 1
       print_status(progress_count, total_count)
+    end
+  end
+
+  def update_tl0
+    User.all.each do |user|
+      user.change_trust_level!(0) if Post.where(user_id: user.id).count == 0
     end
   end
 

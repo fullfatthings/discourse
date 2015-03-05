@@ -1,13 +1,14 @@
 # Available options:
 #
-# default - The default value of the setting.
-# client  - Set to true if the javascript should have access to this setting's value.
-# refresh - Set to true if clients should refresh when the setting is changed.
-# min     - For a string setting, the minimum length. For an integer setting, the minimum value.
-# max     - For a string setting, the maximum length. For an integer setting, the maximum value.
-# regex   - A regex that the value must match.
-# enum    - The setting has a fixed set of allowed values, and only one can be chosen.
-#           Set to the class name that defines the set.
+# default   - The default value of the setting.
+# client    - Set to true if the javascript should have access to this setting's value.
+# refresh   - Set to true if clients should refresh when the setting is changed.
+# min       - For a string setting, the minimum length. For an integer setting, the minimum value.
+# max       - For a string setting, the maximum length. For an integer setting, the maximum value.
+# regex     - A regex that the value must match.
+# validator - The name of the class that will be use to validate the value of the setting.
+# enum      - The setting has a fixed set of allowed values, and only one can be chosen.
+#             Set to the class name that defines the set.
 # type: email    - Must be a valid email address.
 # type: username - Must match the username of an existing user.
 # type: list     - A list of values, chosen from a set of valid values defined in the choices option.
@@ -24,6 +25,9 @@ required:
     client: true
     default: ''
     type: email
+  contact_url:
+    client: true
+    default: ''
   notification_email:
     default: 'noreply@unconfigured.discourse.org'
     type: email
@@ -52,6 +56,7 @@ basic:
     default: 'en'
     enum: 'LocaleSiteSetting'
     refresh: true
+    shadowed_by_global: true
   allow_user_locale:
     client: true
     default: false
@@ -83,7 +88,9 @@ basic:
     client: true
     refresh: true
     type: list
-    default: 'latest|new|unread|top|categories'
+    default: "latest|new|unread|top|categories"
+    regex: "latest"
+    regex_error: "site_settings.errors.must_include_latest"
     choices:
      - latest
      - new
@@ -292,6 +299,9 @@ users:
   public_user_custom_fields:
     type: list
     default: ''
+  staff_user_custom_fields:
+    type: list
+    default: ''
 
 posting:
   min_post_length:
@@ -403,6 +413,8 @@ posting:
     default: 'emoji_one'
     client: true
     enum: 'EmojiSetSiteSetting'
+  enforce_square_emoji:
+    default: true
 
 email:
   email_time_window_mins:
@@ -423,7 +435,7 @@ email:
   reply_by_email_enabled: false
   reply_by_email_address:
     default: ''
-    regex: "%{reply_key}"
+    validator: "ReplyByEmailAddressValidator"
   pop3_polling_enabled: false
   pop3_polling_ssl: true
   pop3_polling_period_mins: 5
@@ -491,7 +503,7 @@ files:
     enum: 'S3RegionSiteSetting'
   s3_upload_bucket:
     default: ''
-    regex: "^[^\\.]*$"
+    regex: "^[^A-Z._]+$"
   allow_profile_backgrounds:
     client: true
     default: true
@@ -503,6 +515,10 @@ files:
     client: true
     default: false
   allow_animated_thumbnails: false
+  default_avatars:
+    default: ''
+    type: url_list
+    client: true
 
 trust:
   default_trust_level:
@@ -734,6 +750,7 @@ uncategorized:
   new_topic_duration_minutes: 2880
   previous_visit_timeout_hours: 1
   staff_like_weight: 3
+  topic_view_duration_hours: 8
 
   # Summary mode
   summary_score_threshold: 15

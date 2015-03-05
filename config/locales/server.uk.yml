@@ -10,11 +10,6 @@ uk:
     short_date_no_year: "D MMM"
     short_date: "D MMM, YYYY"
     long_date: "MMMM D, YYYY h:mma"
-  time:
-    formats:
-      short: "%m-%d-%Y"
-      short_no_year: "%B %-d"
-      date_only: "%b %-d, %Y"
   title: "Discourse"
   topics: "Теми"
   posts: "дописи"
@@ -89,14 +84,6 @@ uk:
       Чи не хотіли б Ви **[відвідати свій профіль](%{profile_path})** та завантажити зображення, що представляло б Вас?
 
       Легше стежити за обговореннями спільноти і шукати цікавих людей в цих обговореннях, коли кожен має унікальну аватарку!
-    sequential_replies: |
-      ### Спробуйте відповідати на декілька дописів одразу
-
-      Замість декількох послідовних відповідей на тему, будь ласка, спробуйте використовувати одну відповідь, що включатиме цитати або посилання на @Імена користувачів з попередніх дописів.
-
-      Ви можете відредагувати свою попередню відповідь, щоб додати цитату, виділивши текст і натиснувши кнопку <b>відповісти на цитату</b>, яка з'явиться над виділеним текстом.
-
-      Всім буде зручніше читати теми, в яких є мало великих відповідей, а не багато окремих маленьких відповідей.
     dominating_topic: |
       ### Дайте можливість іншим включитися до обговорення
 
@@ -228,7 +215,6 @@ uk:
       xaxis: "День"
       yaxis: "Кількість відвідин"
     signups:
-      title: "Користувачі"
       xaxis: "День"
       yaxis: "Кількість нових користувачів"
     topics:
@@ -370,7 +356,6 @@ uk:
     ga_universal_tracking_code: "Код відстеження Google Universal Analytics (analytics.js), напр.: UA-12345678-9; див. http://google.com/analytics"
     ga_universal_domain_name: "Доменне ім'я Google Universal Analytics (analytics.js), напр.: mysite.com; див. http://google.com/analytics"
     enable_noscript_support: "Увімкнути стандартну підтримку пошукових роботів через теґ noscript"
-    top_menu: "Визначає, які елементи з'являються в навігації головної сторінки, та в якому порядку. Наприклад, latest|new|unread|starred|categories|top|read|posted"
     post_menu: "Визначає, які елементи з'являються в меню допису, та в якому порядку. Наприклад, like|edit|flag|delete|share|bookmark|reply"
     track_external_right_clicks: "Track external links that are right clicked (eg: open in new tab) disabled by default because it rewrites URLs"
     port: "ТІЛЬКИ ДЛЯ РОЗРОБНИКІВ! УВАГА! Використовувати цей HTTP-порт замість звичайного порту 80. Лишіть порожнім, щоб використовувати значення за замовчуванням 80."
@@ -378,7 +363,6 @@ uk:
     invite_expiry_days: "Скільки днів ключі запрошення користувачів лишаються чинними"
     min_password_length: "Мінімальна довжина пароля."
     sso_url: "URL of single sign on endpoint"
-    sso_secret: "Secret string used to encrypt/decrypt SSO information, be sure it is 10 chars or longer"
     sso_overrides_email: "Overrides local email with external site email from SSO payload (WARNING: discrepancies can occur due to normalization of local emails)"
     sso_overrides_username: "Overrides local username with external site username from SSO payload (WARNING: discrepancies can occur due to differences in username length/requirements)"
     sso_overrides_name: "Overrides local name with external site name from SSO payload (WARNING: discrepancies can occur due to normalization of local names)"
@@ -415,7 +399,6 @@ uk:
     default_external_links_in_new_tab: "Відкривати нові посилання у новій вкладці. Користувачі можуть змінити це у своїх налаштуваннях."
     allow_profile_backgrounds: "Дозволити користувачам завантажувати фони профілю."
     enable_mobile_theme: "Мобільні пристрої використовуватимуть тему, дружню для них, з можливістю перемикатися на повний сайт. Відключіть це, якщо хочете використовувати власну, повністю чутливу, таблицю стилів."
-    enable_names: "Дозволити показувати повні імена користувачів. Відключити, щоб сховати повні імена."
     display_name_on_posts: "Показувати повні імена користувачів на їх дописах у додаток до їх @username."
     invites_per_page: "Запрошення по замовчуванню показані на сторінці користувача."
     short_progress_text_threshold: "Після того, як кількість дописів в темі перевищить це число, індикатор просування по темі показуватиме тільки номер поточного допису. Якщо Ви зміните ширину індикатора, Вам, ймовірно, знадобиться змінити це значення."
@@ -640,10 +623,7 @@ uk:
     unauthorized: "Sorry, the file you are trying to upload is not authorized (authorized extensions: %{authorized_extensions})."
     pasted_image_filename: "Вставлене зображення"
     store_failure: "Не вдалося зберегти завантаження #%{upload_id} для користувача #%{user_id}."
-    attachments:
-      too_large: "Sorry, the file you are trying to upload is too big (maximum size is %{max_size_kb}%kb)."
     images:
-      too_large: "Sorry, the image you are trying to upload is too big (maximum size is %{max_size_kb}%kb), please resize it and try again."
       fetch_failure: "Sorry, there has been an error while fetching the image."
       unknown_image_type: "Sorry, but the file you tried to upload doesn't appear to be an image."
       size_not_found: "Sorry, but we couldn't determine the size of the image. Maybe your image is corrupted?"
