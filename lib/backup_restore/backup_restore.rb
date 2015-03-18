@@ -80,7 +80,14 @@ module BackupRestore
         -- create <destination> schema if it does not exists already
         -- NOTE: DROP & CREATE SCHEMA is easier, but we don't want to drop the public schema
         -- ortherwise extensions (like hstore & pg_trgm) won't work anymore...
-        CREATE SCHEMA IF NOT EXISTS #{destination};
+        IF NOT EXISTS(
+            SELECT schema_name
+              FROM information_schema.schemata
+              WHERE schema_name = '#{destination}'
+          )
+        THEN
+          EXECUTE 'CREATE SCHEMA #{destination}';
+        END IF;
         -- move all <source> tables to <destination> schema
         FOR row IN SELECT tablename FROM pg_tables WHERE schemaname = '#{source}'
         LOOP
