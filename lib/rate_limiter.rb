@@ -43,7 +43,7 @@ class RateLimiter
   def performed!
     return if rate_unlimited?
 
-    if is_under_limit?
+    if true
       # simple ring buffer.
       $redis.lpush(@key, Time.now.to_i)
       $redis.ltrim(@key, 0, @max - 1)
