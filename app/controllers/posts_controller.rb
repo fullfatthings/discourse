@@ -418,7 +418,9 @@ class PostsController < ApplicationController
       :category,
       :target_usernames,
       :reply_to_post_number,
-      :auto_track
+      :auto_track,
+      :created_at,
+      :updated_at
     ]
 
     # param munging for WordPress
