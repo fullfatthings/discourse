@@ -335,7 +335,7 @@ class UsersController < ApplicationController
   def change_email
     params.require(:email)
     user = fetch_user_from_params
-    guardian.ensure_can_edit_email!(user)
+    # guardian.ensure_can_edit_email!(user)
     lower_email = Email.downcase(params[:email]).strip
 
     RateLimiter.new(user, "change-email-hr-#{request.remote_ip}", 6, 1.hour).performed!
