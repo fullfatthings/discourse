@@ -212,6 +212,11 @@ class UsersController < ApplicationController
       return fail_with("login.password_too_long")
     end
 
+    if params[:password] && params[:password].length > User.max_password_length
+      render json: { success: false, message: I18n.t("login.password_too_long") }
+      return
+    end
+
     user = User.new(user_params)
 
     # Handle custom fields
@@ -310,6 +315,7 @@ class UsersController < ApplicationController
       else
         @user.password = params[:password]
         @user.password_required!
+        @user.auth_token = nil
         if @user.save
           Invite.invalidate_for_email(@user.email) # invite link can't be used to log in anymore
           logon_after_password_reset
