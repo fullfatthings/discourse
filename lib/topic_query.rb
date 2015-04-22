@@ -105,6 +105,7 @@ class TopicQuery
   end
 
   def list_topics_by(user)
+    @options[:filtered_to_user] = user.id
     create_list(:user_topics) do |topics|
       topics.where(user_id: user.id)
     end
@@ -129,8 +130,9 @@ class TopicQuery
 
   def list_category_topic_ids(category)
     query = default_results(category: category.id)
-    pinned_ids = query.where('pinned_at IS NOT NULL').order('pinned_at DESC').pluck(:id)
-    non_pinned_ids = query.where('pinned_at IS NULL').pluck(:id)
+    pinned_ids = query.where('pinned_at IS NOT NULL AND category_id = ?', category.id)
+                      .order('pinned_at DESC').pluck(:id)
+    non_pinned_ids = query.where('pinned_at IS NULL OR category_id <> ?', category.id).pluck(:id)
 
     (pinned_ids + non_pinned_ids)[0...@options[:per_page]]
   end
@@ -154,7 +156,7 @@ class TopicQuery
 
   def prioritize_pinned_topics(topics, options)
 
-    pinned_clause = options[:category] ? "" : "pinned_globally AND "
+    pinned_clause = options[:category_id] ? "topics.category_id = #{options[:category_id].to_i} AND" : "pinned_globally AND "
     pinned_clause << " pinned_at IS NOT NULL "
     if @user
       pinned_clause << " AND (topics.pinned_at > tu.cleared_pinned_at OR tu.cleared_pinned_at IS NULL)"
@@ -170,7 +172,9 @@ class TopicQuery
     if page == 0
       (pinned_topics + unpinned_topics)[0...limit] if limit
     else
-      unpinned_topics.offset((page * per_page - pinned_topics.count) - 1).to_a
+      offset = (page * per_page - pinned_topics.count) - 1
+      offset = 0 unless offset > 0
+      unpinned_topics.offset(offset).to_a
     end
 
   end
@@ -278,6 +282,10 @@ class TopicQuery
       options.reverse_merge!(@options)
       options.reverse_merge!(per_page: per_page_setting)
 
+      # Whether to return visible topics
+      options[:visible] = true if @user.nil? || @user.regular?
+      options[:visible] = false if @user && @user.id == options[:filtered_to_user]
+
       # Start with a list of all topics
       result = Topic.unscoped
 
@@ -307,7 +315,8 @@ class TopicQuery
       end
 
       result = result.limit(options[:per_page]) unless options[:limit] == false
-      result = result.visible if options[:visible] || @user.nil? || @user.regular?
+
+      result = result.visible if options[:visible]
       result = result.where.not(topics: {id: options[:except_topic_ids]}).references(:topics) if options[:except_topic_ids]
       result = result.offset(options[:page].to_i * options[:per_page]) if options[:page]
 
@@ -423,7 +432,7 @@ class TopicQuery
       max = (count*1.3).to_i
       ids = RandomTopicSelector.next(max) + RandomTopicSelector.next(max, topic.category)
 
-      result.where(id: ids)
+      result.where(id: ids.uniq)
     end
 
     def suggested_ordering(result, options)

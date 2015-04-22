@@ -31,6 +31,7 @@ required:
   notification_email:
     default: 'noreply@unconfigured.discourse.org'
     type: email
+    shadowed_by_global: true
   site_contact_username:
     default: ''
     type: username
@@ -88,7 +89,9 @@ basic:
     client: true
     refresh: true
     type: list
-    default: 'latest|new|unread|top|categories'
+    default: "latest|new|unread|top|categories"
+    regex: "latest"
+    regex_error: "site_settings.errors.must_include_latest"
     choices:
      - latest
      - new
@@ -297,9 +300,18 @@ users:
   public_user_custom_fields:
     type: list
     default: ''
+  staff_user_custom_fields:
+    type: list
+    default: ''
 
 posting:
   min_post_length:
+    client: true
+    min: 1
+    default:
+      test: 5
+      default: 20
+  min_first_post_length:
     client: true
     min: 1
     default:
@@ -341,7 +353,7 @@ posting:
     default: 15
   enable_private_messages: true
   ninja_edit_window: 300
-  post_edit_time_limit: 262800
+  post_edit_time_limit: 86400
   edit_history_visible_to_public:
     client: true
     default: true
@@ -395,6 +407,11 @@ posting:
   autohighlight_all_code:
     client: true
     default: false
+  highlighted_languages:
+    default: 'apache|bash|cs|cpp|css|coffeescript|diff|xml|http|ini|json|java|javascript|makefile|markdown|nginx|objectivec|ruby|perl|php|python|sql|handlebars'
+    choices: 'HighlightJs.languages'
+    type: list
+    client: true
   delete_old_hidden_posts: true
   censored_words:
     client: true
@@ -512,6 +529,10 @@ files:
     client: true
     default: false
   allow_animated_thumbnails: false
+  default_avatars:
+    default: ''
+    type: url_list
+    client: true
 
 trust:
   default_trust_level:
@@ -615,6 +636,7 @@ spam:
   max_age_unmatched_ips: 365
   num_flaggers_to_close_topic: 5
   num_flags_to_close_topic: 12
+  auto_respond_to_flag_actions: true
 
 rate_limits:
   unique_posts_mins:
@@ -680,7 +702,9 @@ developer:
     client: true
 
 embedding:
-  embeddable_host: ''
+  embeddable_host:
+      default: ''
+      regex: "^(?!http).+" # don't allow this to start with http:// or https://
   feed_polling_enabled: false
   feed_polling_url: ''
   embed_by_username:
@@ -743,6 +767,7 @@ uncategorized:
   new_topic_duration_minutes: 2880
   previous_visit_timeout_hours: 1
   staff_like_weight: 3
+  topic_view_duration_hours: 8
 
   # Summary mode
   summary_score_threshold: 15

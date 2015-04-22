@@ -1,46 +1,45 @@
 const ADMIN_MODELS = ['plugin'];
 
-function plural(type) {
-  return type + 's';
-}
-
-function pathFor(type) {
-  const path = "/" + plural(type);
-
-  if (ADMIN_MODELS.indexOf(type) !== -1) {
-    return "/admin/" + path;
-  }
-
-  return path;
-}
-
-const _identityMap = {};
-
 export default Ember.Object.extend({
-  findAll(type) {
-    var self = this;
-    return Discourse.ajax(pathFor(type)).then(function(result) {
-      return result[plural(type)].map(obj => self._hydrate(type, obj));
-    });
-  },
+  pathFor(store, type, findArgs) {
+    let path = "/" + Ember.String.underscore(store.pluralize(type));
 
-  _hydrate(type, obj) {
-    if (!obj) { throw "Can't hydrate " + type + " of `null`"; }
-    if (!obj.id) { throw "Can't hydrate " + type + " without an `id`"; }
+    if (ADMIN_MODELS.indexOf(type) !== -1) { path = "/admin/" + path; }
 
-    _identityMap[type] = _identityMap[type] || {};
+    if (findArgs) {
+      if (typeof findArgs === "object") {
+        const queryString = Object.keys(findArgs)
+                                  .reject(k => !findArgs[k])
+                                  .map(k => k + "=" + encodeURIComponent(findArgs[k]));
 
-    const existing = _identityMap[type][obj.id];
-    if (existing) {
-      delete obj.id;
-      existing.setProperties(obj);
-      return existing;
+        if (queryString.length) {
+          path += "?" + queryString.join('&');
+        }
+      } else {
+        // It's serializable as a string if not an object
+        path += "/" + findArgs;
+      }
     }
 
-    const klass = this.container.lookupFactory('model:' + type) || Ember.Object;
-    const model = klass.create(obj);
-    _identityMap[type][obj.id] = model;
-    return model;
+    return path;
+  },
+
+  findAll(store, type) {
+    return Discourse.ajax(this.pathFor(store, type));
+  },
+
+  find(store, type, findArgs) {
+    return Discourse.ajax(this.pathFor(store, type, findArgs));
+  },
+
+  update(store, type, id, attrs) {
+    const data = {};
+    data[Ember.String.underscore(type)] = attrs;
+    return Discourse.ajax(this.pathFor(store, type, id), { method: 'PUT', data });
+  },
+
+  destroyRecord(store, type, record) {
+    return Discourse.ajax(this.pathFor(store, type, record.get('id')), { method: 'DELETE' });
   }
 
 });

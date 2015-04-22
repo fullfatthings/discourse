@@ -42,7 +42,7 @@ class DiscourseSingleSignOn < SingleSignOn
     "SSO_NONCE_#{nonce}"
   end
 
-  def lookup_or_create_user(ip_address)
+  def lookup_or_create_user(ip_address=nil)
     sso_record = SingleSignOnRecord.find_by(external_id: external_id)
 
     if sso_record && user = sso_record.user
@@ -60,7 +60,7 @@ class DiscourseSingleSignOn < SingleSignOn
     if sso_record && (user = sso_record.user) && !user.active
       user.active = true
       user.save!
-      user.enqueue_welcome_message('welcome_user')
+      user.enqueue_welcome_message('welcome_user') unless suppress_welcome_message
     end
 
     custom_fields.each do |k,v|

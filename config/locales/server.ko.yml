@@ -6,16 +6,6 @@
 # https://www.transifex.com/projects/p/discourse-org/
 
 ko:
-  stringex:
-    characters:
-      number: "-"
-  i18n:
-    transliterate:
-      rule:
-        ț: "t"
-        Ț: "t"
-        ș: "s"
-        Ș: "s"
   dates:
     short_date_no_year: "MMM D"
     short_date: "YYYY-MMM-D"
@@ -147,14 +137,6 @@ ko:
       **[프로필](%{profile_path})** 에 방문해서 사용자님을 표현하는 아바타 이미지를 올려보는건 어떨까요?
 
       사용자님만의 특별난 아바타를 가지고 있으시면 사용자님의 의견에 더욱 집중 할 수 있고 또한 관심있는 사용자로써 찾기가 더 쉬워집니다!
-    sequential_replies: |
-      ### 여러개의 게시물에 답글을 한번에 달아주세요
-
-      한 토픽에 연속되는 답글을 달기 보다는 이전 게시물에 대한 인용과 @사용자이름 언급으로 한번에 답글을 달아주세요.
-
-      원하시는 글을 선택하시고 <b>답글을 인용</b> 버튼을 선택함으로써 이전에 쓰셨던 답글에 추가로 인용을 달거나 수정하실 수 있습니다.
-
-      작은 답글을 여러개 다는 것보다 한개의 상세한 답글이 주제를 읽기에 더욱 편하도록 만든다는것 잊지 마세요.
     dominating_topic: |
       ### 다른 유저들도 이 대화에 참여할 수 있도록 해주세요
 
@@ -404,7 +386,6 @@ ko:
       xaxis: "일"
       yaxis: "방문자 수"
     signups:
-      title: "사용자들"
       xaxis: "일"
       yaxis: "새로운 사용자 수"
     topics:
@@ -482,7 +463,6 @@ ko:
     sidekiq_warning: 'Sidekiq 이 현재 실행되고 있지 않습니다. Sidekiq는 이메일 전송 같은 많은 작업들을 비동기식으로 처리합니다. 적어도 하나의 sidekiq 프로세서를 실행시켜 주세요. <a href="https://github.com/mperham/sidekiq">Sidekiq 배우기</a>.'
     queue_size_warning: '큐 작업의 수가 %{queue_size} 개 입니다. 너무 많습니다. Sidekqi에 문제가 있을 수 있습니다. Sidekiq Worker를 더 추가하세요.'
     memory_warning: '당신의 서버는 1GB 이하 메모리로 실행되고 있습니다. 적어도 1GB 이상의 메모리를 사용하세요.'
-    enable_google_logins_warning: "곧 서비스 종료될 Google OpenID 인증 버젼을 사용 중입니다. Google은 해당 OpenID인증 서비스를 2015sus 4월 20일 부로 종료합니다. 가능한 빨리 Google OAuth2 인증을 사용해주세요. <a href='https://meta.discourse.org/t/configuring-google-login-for-discourse/15858' target='_blank'>자세히 알아보기</a>"
     both_googles_warning: "이 사이트 세팅에서 Google OpenID 인증과 Google OAuth2 인증을 동시에 사용하기로 체크하였습니다. Google OpenID인증 설정(enable_google_logins)을 비활성화 해주세요."
     google_oauth2_config_warning: 'Google OAuth2 인증을 통한 로그인과 회원가입(enable_google_oauth2_logins)을 설정하였습니다. 하지만, 아직 Client ID와 Client Secret을 입력하지 않았습니다. <a href="/admin/site_settings">the Site Settings</a> and update the settings. <a href="https://meta.discourse.org/t/configuring-google-login-for-discourse/15858" target="_blank">자세히 알아보기</a>.'
     facebook_config_warning: '당신의 서버는 페이스북을 통한 가입을 설정하였습니다(enable_facebook_logins), 그러나 app id와 app secret 값을 입력하지 않았습니다. <a href="/admin/site_settings">사이트 설정</a> 에서 업데이트 해주세요. <a href="https://github.com/discourse/discourse/wiki/The-Discourse-Admin-Quick-Start-Guide#enable-facebook-logins" target="_blank">가이드 읽어보기</a>.'
@@ -760,7 +740,6 @@ ko:
     default_external_links_in_new_tab: "다른 싸이트의 링크는 새 탭으로 연다. 사용자는 자신의 설정에 따라 바꿀 수 있음"
     detect_custom_avatars: "사용자가 커스텀 아바타를 업로드 했는지 여부를 체크한다."
     max_daily_gravatar_crawls: "하루에 Discourse가 커스텀 아파타를 위해 Gravatar를 체크하는 최대 횟수"
-    public_user_custom_fields: "A whitelist of custom fields for a user that can be shown publically."
     allow_profile_backgrounds: "사용자에게 프로필 배경 이미지 업로드를 허용한다."
     enable_mobile_theme: "모바일 디바이스는 모바일 환경에 친화적인 테마를 사용합니다, 그리고 PC용 화면으로 전환할 수 있습니다. 만약 커스텀 스타일 시트를 사용한다면 이것을 비활성화 시키세요."
     dominating_topic_minimum_percent: "한 토픽에서 한 사용자의 영향력을 결정하는 게시글 수의 퍼센트"
@@ -854,7 +833,6 @@ ko:
     wait_approval: "가입해 주셔서 감사합니다. 곧 활성화 메일이 도착할 것 입니다."
     active: "당신의 계정이 활성화되었습니다."
     not_activated: "당신은 아직 로그인 할 수 없습니다. 계정 활성화 이메일을 보냈습니다. 계정을 활성화하기 위해 지침을 따라주세요."
-    not_allowed_from_ip_address: "이 IP 주소에서 %{username} 으로 로그인 할 수 없습니다."
     suspended: "당신은 %{date} 까지 로그인할 수 없습니다. "
     suspended_with_reason: "당신은 %{date} 까지 로그인할 수 없습니다. 이유: %{reason}"
     errors: "%{errors}"

@@ -8,11 +8,13 @@ require_dependency 'crawler_detection'
 require_dependency 'json_error'
 require_dependency 'letter_avatar'
 require_dependency 'distributed_cache'
+require_dependency 'global_path'
 
 class ApplicationController < ActionController::Base
   include CurrentUser
   include CanonicalURL::ControllerExtensions
   include JsonError
+  include GlobalPath
 
   serialization_scope :guardian
 
@@ -59,22 +61,8 @@ class ApplicationController < ActionController::Base
     use_crawler_layout? ? 'crawler' : 'application'
   end
 
-  rescue_from Exception do |exception|
-    unless [ActiveRecord::RecordNotFound,
-            ActionController::RoutingError,
-            ActionController::UnknownController,
-            AbstractController::ActionNotFound].include? exception.class
-      begin
-        Discourse.handle_request_exception(exception, self, request, current_user)
-      rescue
-        # dont care give up
-      end
-    end
-    raise
-  end
-
   # Some exceptions
-  class RenderEmpty < Exception; end
+  class RenderEmpty < StandardError; end
 
   # Render nothing
   rescue_from RenderEmpty do
@@ -102,7 +90,7 @@ class ApplicationController < ActionController::Base
     if (request.format && request.format.json?) || request.xhr? || !request.get?
       rescue_discourse_actions(:not_logged_in, 403, true)
     else
-      redirect_to "/"
+      redirect_to path("/")
     end
 
   end
@@ -133,7 +121,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  class PluginDisabled < Exception; end
+  class PluginDisabled < StandardError; end
 
   # If a controller requires a plugin, it will raise an exception if that plugin is
   # disabled. This allows plugins to be disabled programatically.
@@ -328,9 +316,7 @@ class ApplicationController < ActionController::Base
     #   type   - a machine-readable description of the error
     #   status - HTTP status code to return
     def render_json_error(obj, opts={})
-      if opts.is_a? Fixnum
-        opts = {status: opts}
-      end
+      opts = { status: opts } if opts.is_a?(Fixnum)
       render json: MultiJson.dump(create_errors_json(obj, opts[:type])), status: opts[:status] || 422
     end
 
@@ -393,7 +379,7 @@ class ApplicationController < ActionController::Base
       # redirect user to the SSO page if we need to log in AND SSO is enabled
       if SiteSetting.login_required?
         if SiteSetting.enable_sso?
-          redirect_to '/session/sso'
+          redirect_to path('/session/sso')
         else
           redirect_to :login
         end
@@ -401,7 +387,7 @@ class ApplicationController < ActionController::Base
     end
 
     def block_if_readonly_mode
-      return if request.fullpath.start_with?("/admin/backups")
+      return if request.fullpath.start_with?(path "/admin/backups")
       raise Discourse::ReadOnly.new if !request.get? && Discourse.readonly_mode?
     end
 

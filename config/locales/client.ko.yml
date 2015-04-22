@@ -130,12 +130,8 @@ ko:
       user_count: "새로운 사용자"
       active_user_count: "활성화된 사용자"
       contact: "Contact Us"
-      contact_info: "사이트 운영과 관련된 사항이나 요청이 있으시다면 이메일 %{contact_email}로 연락주시기 바랍니다."
     bookmarked:
       title: "북마크"
-      help:
-        bookmark: "이 토픽을 북마크하려면 클릭하세요"
-        unbookmark: "이 토픽의 북마크를 제거하려면 클릭하세요"
     bookmarks:
       not_logged_in: "죄송합니다. 게시물을 즐겨찾기에 추가하려면 로그인을 해야 합니다."
       created: "이 게시글을 북마크 하였습니다."
@@ -378,7 +374,6 @@ ko:
         title: "사이트 방문이 없을 경우, 새로운 글을 요약하여 메일로 보냄"
         daily: "매일"
         weekly: "매주"
-        bi_weekly: "격주"
       email_direct: "누군가 나를 인용했을 때, 내 글에 답글을 달았을때, 혹은 내 이름을 언급했을때 이메일 보내기"
       email_private_messages: "누군가 나에게 개인 메시지를 보냈을때 이메일 보내기"
       email_always: "싸이트에 방문 중 일 때 이메일 알림을 보내지 마세요."
@@ -568,14 +563,10 @@ ko:
       emoji: "Emoji :smile:"
       add_warning: "공식적인 경고입니다."
       posting_not_on_topic: "어떤 토픽에 답글을 작성하시겠습니까?"
-      saving_draft_tip: "저장 중..."
       saved_draft_tip: "저장 완료"
       saved_local_draft_tip: "로컬로 저장됩니다."
       similar_topics: "작성하려는 내용과 비슷한 토픽들..."
       drafts_offline: "초안"
-      min_length:
-        need_more_for_title: "제목을 {{n}}글자 더 입력해주세요"
-        need_more_for_reply: "{{n}} to go"
       error:
         title_missing: "제목은 필수 항목입니다"
         title_too_short: "제목은 최소 {{min}} 글자 이상이어야 합니다."
@@ -828,8 +819,8 @@ ko:
         auto_close: "자동으로 닫기"
         make_banner: "배너 토픽"
         remove_banner: "배너 토픽 제거"
-        unpin: "토픽 고정 취소"
         pin: "토픽 고정"
+        unpin: "토픽 고정 취소"
         pin_globally: "전체 공지글로 설정하기"
         unarchive: "보관 안된 토픽"
         archive: "보관된 토픽"
@@ -1194,12 +1185,6 @@ ko:
     posts: "게시물"
     posts_lowercase: "게시글"
     posts_long: "이 토픽의 게시물 수는 {{number}}개 입니다."
-    posts_likes_MF: |
-      이 토픽의 좋아요 현황: {count, plural, one {1 post} other {# posts}} {ratio, select,
-        low {with a high like to post ratio}
-        med {with a very high like to post ratio}
-        high {with an extremely high like to post ratio}
-        other {}}
     original_post: "원본 게시물"
     views: "조회수"
     views_lowercase: "조회"
@@ -1319,8 +1304,6 @@ ko:
         backups: "백업"
         traffic_short: "트래픽"
         traffic: "어플리케이션 웹 요청"
-        page_views: "페이지 조회"
-        page_views_short: "페이지 조회"
         show_traffic_report: "자세한 트래픽 리포트 보기"
         reports:
           today: "오늘"
@@ -1414,8 +1397,6 @@ ko:
         name: "이름"
         add: "추가"
         add_members: "사용자 추가하기"
-        custom: "커스텀"
-        automatic: "오토메틱"
         automatic_membership_email_domains: "이 목록의 있는 항목과 사용자들이  등록한 이메일 도메인이 일치할때 이 그룹에 포함"
         automatic_membership_retroactive: "이미 등록된 사용자에게 같은 이메일 도메인 규칙 적용하기"
       api:
@@ -2012,7 +1993,6 @@ ko:
         dismiss_topics: '<b>x</b>, <b>t</b> 토픽 무시하기'
       actions:
         title: 'Actions'
-        bookmark_topic: '<b>f</b> 토픽 북마크'
         pin_unpin_topic: '<b>shift</b>+<b>p</b> 핀고정/핀해제'
         share_topic: '<b>shift</b>+<b>s</b> 토픽 공유'
         share_post: '<b>s</b> 게시글 공유'

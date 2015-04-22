@@ -6,16 +6,6 @@
 # https://www.transifex.com/projects/p/discourse-org/
 
 pt_BR:
-  stringex:
-    characters:
-      number: "-"
-  i18n:
-    transliterate:
-      rule:
-        ț: "t"
-        Ț: "t"
-        ș: "s"
-        Ș: "s"
   dates:
     short_date_no_year: "D MMM"
     short_date: "D MMM, YYYY"
@@ -81,6 +71,8 @@ pt_BR:
     backup_file_should_be_tar_gz: "O arquivo de backup deve ser um arquivo .tar.gz."
     not_enough_space_on_disk: "Não há espaço suficiente no disco para carregar este backup."
   not_logged_in: "Você precisa estar conectado para fazer isso."
+  not_found: "A URL ou recurso solicitado não pôde ser encontrado."
+  invalid_access: "Você não tem permissão para ver o recurso solicitado."
   read_only_mode_enabled: "O site está em modo somente leitura. As interações estão desativadas."
   too_many_replies:
     one: "Lamentamos, mas usuários novos estão temporariamente limitados a 1 resposta no mesmo tópico."
@@ -185,7 +177,6 @@ pt_BR:
       Já considerou **[visitar o seu perfil de usuário](%{profile_path})** e fazer o envio de uma imagem personalizada que representa você?⏎
       ⏎
       É mais fácil para acompanhar as discussões da comunidade e encontrar pessoas interessantes em conversas quando todo mundo tem um avatar exclusivo!⏎
-    sequential_replies: "# # # Considere responder a várias mensagens de uma só vez \n \nAo contrário do que muitas respostas sequenciais para um tópico, por favor, considere uma única resposta que inclui citações ou referências @nome para posts anteriores. \n \nVocê pode editar a sua resposta anterior para adicionar uma citação de realçar o texto e selecionar o botão<b>citar resposta</ b> que aparece. \n \nÉ mais fácil para que todos possam ler os tópicos que têm menos respostas em profundidade contra um monte de pequenas, respostas individuais. \n"
     dominating_topic: |
       ### Deixe que os outros se juntem à conversa⏎
       ⏎
@@ -218,6 +209,8 @@ pt_BR:
           attributes:
             password:
               common: "é uma das 10000 senhas mais comuns. Por favor, use uma senha mais segura."
+              same_as_username: "é igual o seu nome de usuário. Por favor use uma senha mais segura."
+              same_as_email: "é igual o seu email. Por favor use uma senha mais segura."
             ip_address:
               signup_not_allowed: "Cadastro não é permitido a partir desta conta."
         color_scheme_color:
@@ -470,7 +463,7 @@ pt_BR:
       xaxis: "Dia"
       yaxis: "Número de visitas"
     signups:
-      title: "Usuários"
+      title: "Novos Usuários"
       xaxis: "Dia"
       yaxis: "Número de usuários novos"
     topics:
@@ -543,19 +536,19 @@ pt_BR:
     page_view_anon_reqs:
       title: "Anônimo"
       xaxis: "Dia"
-      yaxis: "Visualizações de Página Anônimas"
+      yaxis: "Solicitações Anônimas de API"
     page_view_logged_in_reqs:
       title: "Logado"
       xaxis: "Dia"
-      yaxis: "Visualizações de Página de Logados"
+      yaxis: "Solicitações de Logados de API"
     page_view_crawler_reqs:
       title: "Web Crawlers"
       xaxis: "Dia"
-      yaxis: "Visualizações de Página de Web Crowlers"
+      yaxis: "Solicitações de API de Web Crawler"
     page_view_total_reqs:
       title: "Total"
       xaxis: "Dia"
-      yaxis: "Visualizações de Página Totais"
+      yaxis: "Solicitações Totais de API"
     http_background_reqs:
       title: "Background"
       xaxis: "Dia"
@@ -587,7 +580,6 @@ pt_BR:
     sidekiq_warning: 'Sidekiq não está em execução. Muitas tarefas, como envio de emails, são executadas de forma assíncrona pelo sidekiq. Por favor certifique-se de que ao menos um processo sidekiq esteja execução. <a href="https://github.com/mperham/sidekiq" target="_blank">Aprenda sobre Sidekiq aqui</a>.'
     queue_size_warning: 'O número de tarefas agendadas é %{queue_size}, o que é alto. Isto pode indicar um problema com o(s) processo(s) Sidekiq, ou você pode estar precisando de mais Sidekiq workers.'
     memory_warning: 'Seu servidor está rodando com menos de 1 GB de memória total. Pelo menos 1 GB é quantidade de memória recomendada.'
-    enable_google_logins_warning: "Você está usando uma versão descontinuada da autenticação Google's OpenID. Google vai parar de dar suporte para o OpenID em 20 de Abril de 2015. Comece a usar o Google OAuth2 assim que possível. <a href='https://meta.discourse.org/t/configuring-google-login-for-discourse/15858' target='_blank'>Veja esse guia para entender mais</a>"
     both_googles_warning: "Você tem enable_google_logins e enable_google_oauth2_logins ativados nas configurações do site. Desative o enable_google_logins."
     google_oauth2_config_warning: 'O servidor está configurado para permitir o signup e login com Google OAuth2 (enable_google_oauth2_logins), mas os valores de Cliend Id e Secret não estão configurados. Vá para <a href="/admin/site_settings">as Configurações do Site</a> e atualize as configurações. <a href="https://meta.discourse.org/t/configuring-google-login-for-discourse/15858" target="_blank">Veja este guia e aprenda mais</a>.'
     facebook_config_warning: 'O servidor está configurado para permitir o signup e login com Facebook (enable_facebook_logins), mas os valores do App Id e App Secret não estão configurados. Vá para <a href="/admin/site_settings">as Configurações do Site</a> e atualize as configurações. <a href="https://meta.discourse.org/t/configuring-facebook-login-for-discourse/13394" target="_blank">Veja este guia e aprenda mais</a>.'
@@ -754,8 +746,6 @@ pt_BR:
     max_username_length: "Tamanho máximo de nome de usuário em caracteres. AVISO: QUAISQUER USUÁRIOS EXISTENTES COM NOMES MAIORES DO QUE ISSO SERÃO INCAPACITADOS DE ACESSAR O SITE."
     min_password_length: "Comprimento mínimo da senha."
     block_common_passwords: "Não permitir senhas que estiverem entre as 10,000 senhas mais comuns."
-    enable_sso: "Habilitar single sign on através de um site externo (AVISO: pode impedir que qualquer um se logue se não for adequadamente configurado quando habilitado; além disso desabilita convites)"
-    enable_sso_provider: "Implementar o protocolo Discourse SSO no endpoint /session/sso_provider , exige que sso_secret esteja definido"
     sso_url: "URL destino do logon único"
     sso_secret: "String secreta usada para autenticar criptograficamente informação de SSO, esteja certo de que possui 10 ou mais caracteres"
     sso_overrides_email: "Substitui e-mail local com site externo de e-mail do servidor SSO (ATENÇÃO: discrepâncias podem ocorrer devido à normalização de e-mails locais)"
@@ -913,7 +903,6 @@ pt_BR:
     default_external_links_in_new_tab: "Abrir links externos em uma nova guia. Os usuários podem mudar isso em suas preferências."
     detect_custom_avatars: "Se ou não deve se checar que os usuários fizeram upload de avatares personalizados."
     max_daily_gravatar_crawls: "Número máximo de vezes que o Discourse irá checar o Gravatar por avatares personalizados em um dia"
-    public_user_custom_fields: "Uma lista de permissões de campos personalizados para um usuário que pode ser mostrado publicamente."
     allow_profile_backgrounds: "Permitir usuários de fazerem upload de backgrounds para o perfil"
     sequential_replies_threshold: "Número de posts que um usuário precisa fazer em seguida num tópico antes de ser relembrado sobre muitas respostas sequenciais."
     enable_mobile_theme: "Os dispositivos móveis usam um tema mobile-friendly, com a possibilidade de mudar para o site completo. Desative isso se você quiser usar um estilo personalizado que é totalmente responsivo."
@@ -928,7 +917,6 @@ pt_BR:
     default_code_lang: "Realce de sintaxe padrão da linguagem de programação aplicada a blocos de código GitHub (lang-auto, Ruby, Python, etc)"
     warn_reviving_old_topic_age: "Quando alguém começa a responder a um tópico mais velho do que este número de dias, um aviso será exibido para desencorajar o usuário de reviver uma velha discussão. Desabilite definindo para 0."
     autohighlight_all_code: "Aplicar código destacando todos os blocos de código pré-formatados, mesmo quando não for específica o idioma"
-    embeddable_host: "Host que pode incorporar os comentários deste fórum do Discourse"
     feed_polling_enabled: "Se um feed RSS / ATOM são importados como mensagens"
     feed_polling_url: "URL do feed RSS / ATOM para importar"
     embed_by_username: "Nome de usuário Discourse para o usuário que cria os tópicos"
@@ -1039,7 +1027,6 @@ pt_BR:
     active: "A sua conta está ativa e pronta."
     activate_email: "<p>Você está quase lá! Enviamos um email de ativação para <b>%{email}</b>. Por favor, siga as instruções contidas nele para ativar sua conta.</p><p>Se ele não chegar, verifique sua pasta de spam, ou tente entrar novamente para enviar outro email de ativação.</p>"
     not_activated: "Ainda não podes fazer log in. Enviamos um email de ativação para você. Por favor siga as instruções no email para ativar a sua conta."
-    not_allowed_from_ip_address: "Você não pode entrar como %{username} a partir deste endereço IP."
     suspended: "Você não pode entrar até %{date}."
     suspended_with_reason: "Você não pode entrar até %{date}. Razão da sua suspensão: %{reason}"
     errors: "%{errors}"
@@ -1106,8 +1093,6 @@ pt_BR:
       %{base_url}/users/password-reset/%{email_token}
   test_mailer:
     subject_template: "[%{site_name}] Teste de entrega de email"
-    text_body_template: "Este é um email de teste de\n\n[**%{base_url}**][0]\n\nEntregabilidade de email é complicada. Aqui estão algumas poucas coisas importantes que você deve verificar primeiro:\n\n- Esteja *certo* de definir o from: do `email de notificação` corretamente nas configurações do seu site. **O domínio especificado no endereço \"from\" dos emails que você envia é o domínio contra o qual o seu email será validado**.\n\n- Aprenda como ver o código cru de email no seu cliente de email, para que assim você possa examinar os cabeçalhos de email por pistas importantes. No Gmail, isso é a opção \"exibir original\" no menu drop-down no topo à direita de cada email.\n\n- **IMPORTANTE:** O seu provedor de acesso à internet possui um record de DNS reverso configurado para associar os nomes de domínio e endereços IP dos quais você envia email? [Teste seu record de PTR Reverso][2] aqui. Se o seu provedor de acesso à internet não configurar o record de DNS reverso apropriadamente, é muito pouco provável que qualquer do seu email será entregue.\n\n- O [record SPF][8] do seu domínio é correto? [Teste seu record SPF][1] aqui. Note que TXT \n é o tipo oficialmente correto de record para SPF.\n\n- O [record DKIM][3] do seu domínio é correto? Isso melhorará significativamente a entregabilidade de email. [Teste seu record DKIM][7] aqui.\n\n- Se você roda o seu próprio servidor de emails, verifique e certifique-se que os IPs do seu servidor de emails [não estão em quaisquer blacklists de emails][4]. Também verifique que ele esteja decisivamente enviando um fully-qualified hostname que se resolve em DNS em sua mensagem HELO. Caso contrário, isso fará com que seu email seja rejeitado por muitos serviços de email. \n\n(O modo *fácil* é criar uma conta grátis no [Mandrill][md] ou [Mailgun][mg] ou [Mailjet][mj], os quais têm generosos planos grátis de email e serão suficientes para pequenas comunidades. Você ainda precisará configurar os records SPF e DKIM no seu DNS, apesar disso!) \n\nNós esperamos que você tenha recebido este teste de entregabilidade de email OK!\n\nBoa sorte,\n\nSeus amigos do [Discourse](http://www.discourse.org)\n\n\
-      [0]: %{base_url}\n[1]: http://www.kitterman.com/spf/validate.html\n[2]: http://mxtoolbox.com/ReverseLookup.aspx\n[3]: http://www.dkim.org/\n[4]: http://whatismyipaddress.com/blacklist-check\n[7]: http://dkimcore.org/tools/dkimrecordcheck.html\n[8]: http://www.openspf.org/SPF_Record_Syntax\n[md]: http://mandrill.com\n[mg]: http://www.mailgun.com/\n[mj]: http://www.mailjet.com/pricing\n"
   new_version_mailer:
     subject_template: "[%{site_name}] Nova versão do Discourse, atualização disponível"
     text_body_template: |
@@ -1506,6 +1491,7 @@ pt_BR:
     body_blank: "body está em branco"
   color_schemes:
     base_theme_name: "Base"
+  about: "Sobre"
   guidelines: "Diretrizes"
   privacy: "Privacidade"
   edit_this_page: "Editar esta página"

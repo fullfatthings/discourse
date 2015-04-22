@@ -6,16 +6,6 @@
 # https://www.transifex.com/projects/p/discourse-org/
 
 pt:
-  stringex:
-    characters:
-      number: "-"
-  i18n:
-    transliterate:
-      rule:
-        ț: "t"
-        Ț: "t"
-        ș: "s"
-        Ș: "s"
   dates:
     short_date_no_year: "DD MMM"
     short_date: "DD MMM, YYYY"
@@ -130,14 +120,6 @@ pt:
 
       Para mais, [verifique as diretrizes da comunidade](/guidelines). Este painel irá aparecer apenas para o seu primeiro %{education_posts_text}.
     avatar: "### Que tal uma nova imagem para a sua conta? \n\nPublicou alguns tópicos e respostas, mas o seu avatar não é tão original como você o é -- é o mesmo avatar padrão que todos os novos utilizadores têm .\n\nJá considerou **[visitar o seu perfil de utilizador](%{profile_path})** e fazer o envio de uma imagem personalizada que o representa?\n\nÉ mais fácil acompanhar as discussões da comunidade e encontrar pessoas interessantes em conversas quando todas as pessoas têm um avatar exclusivo!\n"
-    sequential_replies: |
-      ### Considere responder várias mensagens de uma só vez
-
-      Em vez de várias respostas a um tópico, por favor considere uma única resposta que inclua o texto em debate ou um @nome com referências a mensagens anteriores.
-
-      Poderá editar as suas respostas anteriores, para fazer referências a outras mensagens, fazendo sobressair esse texto, selecionando o botão de resposta apropriado.
-
-      É mais fácil para todos, ler tópicos que têm poucas respostas bem desenvolvidas, do que variadíssimas respostas curtas e elementares.
     dominating_topic: |+
       ### Deixe que os outros se juntem à conversa
 
@@ -433,7 +415,6 @@ pt:
       xaxis: "Dia"
       yaxis: "Número de visitas"
     signups:
-      title: "Utilizadores"
       xaxis: "Dia"
       yaxis: "Número de novos utilizadores"
     topics:
@@ -511,7 +492,6 @@ pt:
     sidekiq_warning: 'Sidekiq não está em execução. Muitas tarefas, como envio de emails, são executadas de forma assíncrona pelo sidekiq. Por favor certifique-se de que pelo menos um processo sidekiq está em execução. <a href="https://github.com/mperham/sidekiq" target="_blank">Aprenda sobre Sidekiq aqui</a>.'
     queue_size_warning: 'O número de tarefas agendadas é %{queue_size}, o que é alto. Isto pode indicar um problema com o(s) processo(s) Sidekiq, ou pode estar a precisar de mais "Sidekiq workers".'
     memory_warning: 'O seu servidor está a executar com menos de 1 GB de memória total. Pelo menos 1 GB é a quantidade de memória recomendada.'
-    enable_google_logins_warning: "Está a usar uma versão obsoleta da autenticação do OpenID da Google. A Google irá terminar o suporte  do OpenID em 20 de Abril de 2015. Comece a usar o OAuth2 da Google assim que possível.  <a href='https://meta.discourse.org/t/configuring-google-login-for-discourse/15858' target='_blank'> Verifique este guia para aprender mais</a>"
     both_googles_warning: "Tanto enable_google_logins e enable_google_oauth2_logins estão assinalados nas configurações do sítio. Desative enable_google_logins."
     google_oauth2_config_warning: 'O servidor está configurado para permitir inscrever-se e entrar com o Google OAuth2 (enable_google_oauth2_logins), mas o id e os valores privados do cliente não estão configurados. Vá   <a href="/admin/site_settings">às Configurações do Sítio</a> e atualize as definições. <a href="https://meta.discourse.org/t/configuring-google-login-for-discourse/15858" target="_blank">Veja este guia para saber mais</a>.'
     facebook_config_warning: 'O servidor está configurado para permitir inscrever-se e entrar com o Facebook (enable_facebook_logins), mas o id e os valores privados da aplicação não estão configurados. Vá  <a href="/admin/site_settings">às Configurações do Sítio</a> e atualize as definições. <a href="https://meta.discourse.org/t/configuring-facebook-login-for-discourse/13394" target="_blank">Veja este guia para saber mais</a>.'
@@ -662,7 +642,6 @@ pt:
     max_username_length: "Tamanho máximo do nome de utilizador, em caracteres. AVISO: QUAISQUER UTILIZADORES COM NOMES MAIORES QUE ISTO SERÃO PROIBIDOS DE ACEDER AO SÍTIO."
     min_password_length: "Tamanho mínimo da palavra-passe."
     block_common_passwords: "Não permitir palavras-passe que estejam nas 10,000 palavras-passe mais comuns."
-    enable_sso_provider: "Implementa o protocolo SSO para o Discourse em /session/sso_provider endpoint, requer que sso_secret esteja configurado"
     sso_url: "URL da inscrição única"
     sso_overrides_email: "Substitui o email local por um email externo de um SSO (AVISO: discrepâncias podem ocorrer devido a normalização de emails locais)"
     sso_overrides_username: "Substitui nomes de utilizador locais por nomes de utilizadores externos de um SSO (AVISO: discrepâncias podem ocorrer diferenças no nome de utilizador length/requirements)"
@@ -820,7 +799,6 @@ pt:
     default_external_links_in_new_tab: "Abrir hiperligações externas num novo separador. Os utilizadores podem alterar isto nas suas preferências."
     detect_custom_avatars: "Se deve ou não haver uma verificação de que os utilizadores carregaram avatars personalizados."
     max_daily_gravatar_crawls: "Número máximo de vezes que o Discourse irá verificar o Gravatar para avatars personalizados, por dia"
-    public_user_custom_fields: "Lista de campos personalizados para um utilizador e que podem ser exibidos publicamente."
     allow_profile_backgrounds: "Permitir que os utilizadores carreguem fundos de perfil."
     sequential_replies_threshold: "Número de mensagens que um utilizador tem que fazer em linha num tópico antes de ser relembrado acerca de demasiadas respostas sequenciais."
     enable_mobile_theme: "Os dispositivos móveis usam um tema mobile-friendly, com a possibilidade de mudar para o sítio completo. Desative isto se quer usar um estilo personalizado que é totalmente responsivo."
@@ -834,7 +812,6 @@ pt:
     default_code_lang: "Linguagem de programação por defeito a aplicar no destaque da sintaxe em blocos de código GitHub (lang-auto, ruby, python, etc.)"
     warn_reviving_old_topic_age: "Quando alguém começa a responder a um tópico em que a última resposta é mais antiga que estes dias, um aviso será exibido. Desativar ao configurar para 0."
     autohighlight_all_code: "Forçar o destaque do código a todos os blocos de código pré-formatados mesmo quando não se especifica a linguagem."
-    embeddable_host: "Servidor que pode incorporar os comentários deste fórum Discourse."
     feed_polling_enabled: "INCORPORAR APENAS: incorporar feeds RSS/ATOM como mensagens."
     feed_polling_url: "INCORPORAR APENAS: URL dos feeds de RSS/ATOM para embutir."
     embed_by_username: "Nome de utilizador Discourse do utilizador que cria tópicos embebidos."
@@ -945,7 +922,6 @@ pt:
     active: "A sua conta está ativa e pronta para ser utilizada."
     activate_email: "<p> Está quase no final! Enviámos um email de ativação para <b>%{email}</b>. Por favor siga as instruções no email para ativar a sua conta.</p><p>Se não receber o email, verifique a sua pasta de spam, ou tente autenticar-se novamente para enviar outro email de ativação.</p>"
     not_activated: "Ainda não pode iniciar sessão. Enviámos um email de ativação para si. Por favor siga as instruções no email para ativar a sua conta."
-    not_allowed_from_ip_address: "Não pode autenticar-se como %{username} a partir desse endereço IP."
     suspended: "Não pode iniciar sessão até %{date}."
     suspended_with_reason: "Não pode iniciar sessão até %{date}. Motivo da sua suspensão: %{reason}"
     errors: "%{errors}"

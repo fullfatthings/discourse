@@ -112,7 +112,7 @@ es:
     guidelines: "Directrices"
     privacy_policy: "Política de Privacidad"
     privacy: "Privacidad"
-    terms_of_service: "Condiciones Generales de Uso"
+    terms_of_service: "Condiciones de uso"
     mobile_view: "Versión móvil"
     desktop_view: "Versión de escritorio"
     you: "Tú"
@@ -125,6 +125,7 @@ es:
     daily: "cada día"
     weekly: "cada semana"
     every_two_weeks: "cada dos semanas"
+    every_three_days: "cada tres días"
     max_of_count: "máximo de {{count}}"
     character_count:
       one: "{{count}} carácter"
@@ -141,24 +142,26 @@ es:
         all_time: "Todo el tiempo"
         last_7_days: "Últimos 7 días"
         last_30_days: "Últimos 30 días"
-      like_count: "Likes"
+      like_count: "Me Gusta"
       topic_count: "Temas"
       post_count: "Posts"
       user_count: "Nuevos usuarios"
       active_user_count: "Usuarios activos"
       contact: "Contáctanos"
-      contact_info: "En caso de error crítico o asunto urgente con respecto a este sitio, por favor, contáctanos a %{contact_email}."
+      contact_info: "En el transcurso de un error crítico o un asunto urgente referente a este sitio, por favor, contáctanos en %{contact_info}."
     bookmarked:
       title: "Marcador"
+      clear_bookmarks: "Quitar Marcadores"
       help:
-        bookmark: "Clic para guardar este tema en marcadores"
-        unbookmark: "Clic para eliminar este tema de marcadores"
+        bookmark: "Clic para guardar en marcadores el primer post de este tema"
+        unbookmark: "Clic para quitar todos los marcadores de este tema"
     bookmarks:
       not_logged_in: "Lo sentimos, debes iniciar sesión para guardar posts en marcadores."
       created: "has marcado este post como favorito"
       not_bookmarked: "has leído este post, haz clic para marcarlo como favorito"
       last_read: "este es el último post que has leído; haz clic para marcarlo como favorito"
       remove: "Eliminar marcador"
+      confirm_clear: "¿Seguro que deseas borrar todos los marcadores de este tema?"
     topic_count_latest:
       one: "Un tema nuevo o actualizado."
       other: "{{count}} temas nuevos o actualizados."
@@ -203,6 +206,18 @@ es:
       posted_by_you: "Publicado por <a href='{{userUrl}}'>ti</a>"
       sent_by_user: "Enviado por <a href='{{userUrl}}'>{{user}}</a>"
       sent_by_you: "Enviado por <a href='{{userUrl}}'>ti</a>"
+    directory:
+      title: "Directorio de usuario"
+      likes_given: "Me Gusta dados"
+      likes_received: "Me Gusta recibidos"
+      topics_entered: "Temas Vistos"
+      time_read: "Tiempo de Lectura"
+      topic_count: "Temas"
+      post_count: "Respuestas"
+      no_results: "No se han encontrado resultados para este período de tiempo."
+      total_rows:
+        one: "1 usuario encontrado"
+        other: "%{count} usuarios encontrados"
     groups:
       visible: "El grupo es visible para todos los usuarios"
       title:
@@ -400,8 +415,9 @@ es:
       email_digests:
         title: "Cuando no visite la página, enviarme un correo con las últimas novedades."
         daily: "diariamente"
+        every_three_days: "cada tres días"
         weekly: "semanalmente"
-        bi_weekly: "cada dos semanas"
+        every_two_weeks: "cada dos semanas"
       email_direct: "Enviarme un email cuando alguien me cita, responde a mi post o menciona mi @usuario"
       email_private_messages: "Enviarme un email cuando alguien me mande un mensaje privado"
       email_always: "No detener notificaciones por e-mail cuando estoy activo en el sitio"
@@ -457,6 +473,8 @@ es:
         title: "Contraseña"
         too_short: "Tu contraseña es demasiada corta."
         common: "Esa contraseña es demasiado común."
+        same_as_username: "Tu contraseña es la misma que tu nombre de usuario."
+        same_as_email: "Tu contraseña es la misma que tu dirección de correo electrónico."
         ok: "Tu contraseña es válida."
         instructions: "Debe contener al menos %{count} caracteres."
       associated_accounts: "Inicios de sesión"
@@ -567,6 +585,7 @@ es:
       requires_invite: "Lo sentimos pero solo se puede acceder a este foro mediante invitación."
       not_activated: "No puedes iniciar sesión todavía. Anteriormente te hemos enviado un email de activación a <b>{{sentTo}}</b>. Por favor sigue las instrucciones en ese email para activar tu cuenta."
       not_allowed_from_ip_address: "No puedes iniciar sesión desde esa dirección IP."
+      admin_not_allowed_from_ip_address: "No puedes iniciar sesión como admin desde esta dirección IP."
       resend_activation_email: "Has clic aquí para enviar el email de activación nuevamente."
       sent_activation_email_again: "Te hemos enviado otro e-mail de activación a <b>{{currentemail}}</b>. Podría tardar algunos minutos en llegar; asegúrate de revisar tu carpeta de spam."
       google:
@@ -595,14 +614,11 @@ es:
       emoji: "Emoji :smile:"
       add_warning: "Ésta es una advertencia oficial."
       posting_not_on_topic: "¿A qué tema quieres responder?"
-      saving_draft_tip: "guardando"
+      saving_draft_tip: "guardando..."
       saved_draft_tip: "guardado"
       saved_local_draft_tip: "guardado localmente"
       similar_topics: "Tu tema es similar a..."
       drafts_offline: "borradores offline"
-      min_length:
-        need_more_for_title: "{{n}} para completar el título"
-        need_more_for_reply: "{{n}} para completar"
       error:
         title_missing: "Es necesario un título"
         title_too_short: "El título debe ser por lo menos de {{min}} caracteres."
@@ -724,6 +740,7 @@ es:
         close_topics: "Cerrar temas"
         archive_topics: "Archivar temas"
         notification_level: "Cambiar el Nivel de Notificación"
+        choose_new_category: "Elige una nueva categoría para los temas:"
         selected:
           one: "Has seleccionado <b>1</b> tema."
           other: "Has seleccionado <b>{{count}}</b> temas."
@@ -860,10 +877,12 @@ es:
         open: "Abrir tema"
         close: "Cerrar tema"
         auto_close: "Auto-cierre"
+        feature: "Característica del Tema"
+        remove_feature: "Quitar Característica"
         make_banner: "Tema de encabezado. "
         remove_banner: "Remover tema de encabezado. "
-        unpin: "Dejar de destacar"
         pin: "Destacar tema"
+        unpin: "Dejar de destacar"
         pin_globally: "Destacar tema globalmente"
         unarchive: "Desarchivar Tema"
         archive: "Archivar Tema"
@@ -884,6 +903,30 @@ es:
         title: 'Reportar'
         help: 'reportar de forma privada para atención de los moderadores o enviar una notificación privada sobre él'
         success_message: 'Has reportado este tema correctamente.'
+      feature_topic:
+        title: "Característica de este Tema"
+        pin: "Hacer que este tema aparecerá en la parte superior de la {{categoryLink}} categoría."
+        confirm_pin: "¿Estás seguro? Ya tiene {{count}} temas anclados - demasiados temas anclados pueden ocultar otros temas activos."
+        unpin: "Eliminar este tema desde el tema de la {{categoryLink}} categoría."
+        pin_note: "Los usuarios pueden desanclar el tema de forma individual por sí mismos."
+        already_pinned:
+          zero: "Actualmente no hay temas anclados en {{categoryLink}}."
+          one: "Tema anclado actualmente en {{categoryLink}}: <strong>1.</strong>"
+          other: "Temas anclados actualmente en {{categoryLink}}: <strong>{{count}}</strong>."
+        pin_globally: "Haz que este tema aparezca en la parte superior de todas las listas de temas, hasta que un miembro del personal le quite el anclaje."
+        confirm_pin_globally: "¿Estás seguro? Ya tiene {{count}} temas anclados a nivel global -- demasiados temas anclados pueden ocultar otros temas activos."
+        unpin_globally: "Eliminar este tema de la parte superior de todas las listas de temas."
+        global_pin_note: "Los usuarios pueden desanclar el tema de forma individual por sí mismos."
+        already_pinned_globally:
+          zero: "No hay temas anclados actualmente a nivel global."
+          one: "Tema anclado actualmente a nivel global: <strong>1.</strong>"
+          other: "Temas anclados actualmente a nivel global: <strong>{{count}}</strong>."
+        make_banner: "Hacer de este tema una pancarta que aparece en la parte superior de todas las páginas."
+        remove_banner: "Retire la pancarta que aparece en la parte superior de todas las páginas."
+        banner_note: "Los usuarios pueden descartar la pancarta cerrándola. Sólo un tema puede ser una pancarta en cualquier momento dado."
+        already_banner:
+          zero: "Actualmente no hay ningún tema como pancarta."
+          one: "Actualmente existe un tema como pancarta."
       inviting: "Invitando..."
       automatically_add_to_groups_optional: "Esta invitación incluye además acceso a estos grupos: (opcional, solo administradores)"
       automatically_add_to_groups_required: "Esta invitación incluye además acceso a estos grupos: (<b>Requerido</b>, solo administradores)"
@@ -979,6 +1022,7 @@ es:
         attachment_too_large: "Lo siento, el archivo que estas intentando subir es demasiado grande (el tamaño máximo es {{max_size_kb}}kb)."
         file_too_large: "Lo sentimos, el archivo que estas tratando de subir es demasiado grande (el tamaño máximo es de {{max_size_kb}}kb)"
         too_many_uploads: "Lo siento solo puedes subir un archivo cada vez."
+        too_many_dragged_and_dropped_files: "Lo sentimos, solo puedes arrastrar 10 archivos a la vez."
         upload_not_authorized: "Lo sentimos, el archivo que intenta cargar no está autorizado (authorized extension: {{authorized_extensions}})."
         image_upload_not_allowed_for_new_user: "Lo siento, usuarios nuevos no pueden subir imágenes."
         attachment_upload_not_allowed_for_new_user: "Lo siento, usuarios nuevos no pueden subir archivos adjuntos."
@@ -1040,6 +1084,7 @@ es:
         people:
           off_topic: "{{icons}} reportó esto como off-topic"
           spam: "{{icons}} reportó esto como spam"
+          spam_with_url: "{{icons}} reportó <a href='{{postUrl}}'>esto como spam</a>"
           inappropriate: "{{icons}} flagged reportó esto como inapropiado"
           notify_moderators: "{{icons}} ha notificado a los moderadores"
           notify_moderators_with_url: "{{icons}} <a href='{{postUrl}}'>moderadores notificados</a>"
@@ -1256,7 +1301,7 @@ es:
     posts_lowercase: "posts"
     posts_long: "{{number}} posts en este tema"
     posts_likes_MF: |
-      Este tema tiene {count, plural, one {1 post} other {# posts}} {ratio, select,
+      Este tema tiene {count, plural, one {1 respuesta} other {# respuestas}} {ratio, select,
         low {con una ratio de me gusta por post elevada}
         med {con una ratio de me gusta por post bastante elevada}
         high {con una ratio de me gusta por post elevadísima}
@@ -1337,6 +1382,7 @@ es:
           title: "Top de la semana"
         daily:
           title: "Top del día"
+        all: "Todo el tiempo"
         this_year: "Este año"
         this_month: "Este mes"
         this_week: "Esta semana"
@@ -1380,8 +1426,8 @@ es:
         backups: "backups"
         traffic_short: "Tráfico"
         traffic: "Peticiones web de la app"
-        page_views: "Páginas vistas"
-        page_views_short: "Páginas vistas"
+        page_views: "Peticiones de API"
+        page_views_short: "Peticiones de API"
         show_traffic_report: "Mostrar informe detallado del tráfico"
         reports:
           today: "Hoy"
@@ -1480,8 +1526,12 @@ es:
         name: "Nombre"
         add: "Añadir"
         add_members: "Añadir miembros"
-        custom: "Personalizado"
-        automatic: "Automático"
+        custom:
+          label: "Personalizar"
+          title: "Grupos Personalizados"
+        automatic:
+          label: "Automático"
+          title: "Grupos Automáticos"
         automatic_membership_email_domains: "Los usuarios que se registren con un dominio de e-mail que esté en esta lista serán automáticamente añadidos a este grupo:"
         automatic_membership_retroactive: "Aplicar la misma regla de dominio de email para usuarios registrados existentes "
       api:
@@ -1498,6 +1548,14 @@ es:
         info_html: "Tu clave de API te permitirá crear y actualizar temas usando llamadas a JSON."
         all_users: "Todos los usuarios"
         note_html: "Mantén esta clave <strong>secreta</strong> a buen recaudo, cualquier usuario que disponga de ella podría crear posts de cualquier usuario."
+      plugins:
+        title: "Plugins"
+        installed: "Plugins instalados"
+        name: "Nombre"
+        none_installed: "No tienes plugins instalados."
+        version: "Versión"
+        change_settings: "Cambiar preferencias"
+        howto: "¿Cómo instalo plugins?"
       backups:
         title: "Copia de seguridad"
         menu:
@@ -1551,6 +1609,7 @@ es:
             title: "Regresar la base de datos al estado funcional anterior"
             confirm: "¿Estás seguro que quieres regresar la base de datos al estado funcional anterior?"
       export_csv:
+        user_archive_confirm: "¿Seguro que quieres descargar todos tus posts?"
         success: "Exportación comenzada, se te notificará a través de un mensaje privado cuando el proceso se haya completado."
         failed: "Exportación fallida, revisa los logs."
         rate_limit_error: "Los posts se pueden descargar una vez al día, por favor, prueba otra vez mañana."
@@ -1561,6 +1620,9 @@ es:
           screened_email: "Exportar la lista completa de emails vistos en formato CSV."
           screened_ip: "Exportar la lista completa de IP vistas en formato CSV."
           screened_url: "Exportar la lista completa de URL vistas en formato CSV."
+      invite:
+        button_text: "Enviar invitaciones"
+        button_title: "Enviar invitaciones"
       customize:
         title: "Personalizar"
         long_title: "Personalizaciones del sitio"
@@ -1721,6 +1783,7 @@ es:
             delete_topic: "eliminar tema"
             delete_post: "eliminar post"
             impersonate: "impersonar"
+            anonymize_user: "anonimizar usuario"
         screened_emails:
           title: "Correos bloqueados"
           description: "Cuando alguien trata de crear una cuenta nueva, los siguientes correos serán revisados y el registro será bloqueado, o alguna otra acción será realizada."
@@ -1747,6 +1810,7 @@ es:
             label: "Nueva:"
             ip_address: "Dirección IP"
             add: "Añadir"
+            filter: "Búsqueda"
           roll_up:
             text: "Agrupar"
             title: "Crea un nuevo rango de entradas para banear si hay al menos 'min_ban_entries_for_roll_up' entradas."
@@ -1808,14 +1872,14 @@ es:
         unsuspend_failed: "Algo salió mal quitando ban a este usuario {{error}}"
         suspend_duration: "¿Cuánto tiempo le gustaría aplicar ban al usuario? (days)"
         suspend_duration_units: "(días)"
-        suspend_reason_label: "¿Por qué lo pospones? Este texto <b>será visible para todos</b> en la página de perfil del usuario, y además será mostrado al usuario cuando trate de ingresar en el sitio web. Mantenlo simplificado."
+        suspend_reason_label: "¿Por qué lo suspendes? Este texto <b>será visible para todos</b> en la página de perfil del usuario y se mostrará al usuario cuando intente iniciar sesión. Sé conciso."
         suspend_reason: "Causa"
         suspended_by: "Suspendido por"
         delete_all_posts: "Eliminar todos los posts"
         delete_all_posts_confirm: "Estás a punto de borrar %{posts} posts y %{topics} temas. ¿Estás seguro?"
         suspend: "Suspender"
-        unsuspend: "Quitar ban"
-        suspended: "¿Baneado?"
+        unsuspend: "Quitar suspensión"
+        suspended: "¿Suspendido?"
         moderator: "¿Moderador?"
         admin: "¿Administrador?"
         blocked: "¿Bloqueado?"
@@ -1853,8 +1917,13 @@ es:
         approve_success: "Usuario aprobado y correo electrónico enviado con instrucciones para la activación."
         approve_bulk_success: "¡Perfecto! Todos los usuarios seleccionados han sido aprobados y notificados."
         time_read: "Tiempo de lectura"
+        anonymize: "Anonimizar usuario"
+        anonymize_confirm: "¿SEGURO que quieres hacer anónima esta cuenta? Esto cambiará el nombre de usuario y el email, y reseteará toda la información de perfil."
+        anonymize_yes: "Sí, hacer anónima esta cuenta."
+        anonymize_failed: "Hubo un problema al hacer anónima la cuenta."
         delete: "Borrar usuario"
         delete_forbidden_because_staff: "Administradores y moderadores no pueden ser eliminados"
+        delete_posts_forbidden_because_staff: "No se pueden eliminar todos los posts de admins y moderadores."
         delete_forbidden:
           one: "Los usuarios no se pueden borrar si han sido registrados hace más de %{count} día, o si tienen publicaciones. Borra todas publicaciones antes de tratar de borrar un usuario."
           other: "Los usuarios no se pueden borrar si han sido registrados hace más de %{count} días, o si tienen publicaciones. Borra todas publicaciones antes de tratar de borrar un usuario."
@@ -1961,6 +2030,7 @@ es:
         none: 'ninguno'
         no_results: "Ningún resultado encontrado"
         clear_filter: "Limpiar filtro"
+        add_url: "añadir URL"
         categories:
           all_results: 'Todo'
           required: 'Requerido'
@@ -1996,10 +2066,13 @@ es:
           modal_title: Grupos de distintivos
         granted_by: Concedido por
         granted_at: Concedido en
+        reason_help: (Enlace a un post o tema)
         save: Guardar
         delete: Borrar
         delete_confirm: ¿Estás seguro de que quieres eliminar este distintivo?
         revoke: Revocar
+        reason: Motivo
+        expand: Expandir &hellip;
         revoke_confirm: ¿Estás seguro de que quieres revocar este distintivo?
         edit_badges: Editar distintivos
         grant_badge: Condecer distintivo
@@ -2086,7 +2159,7 @@ es:
         dismiss_topics: '<b>x</b>, <b>t</b> Descartar Temas'
       actions:
         title: 'Acciones'
-        bookmark_topic: '<b>f</b> Guardar tema en marcadores'
+        bookmark_topic: '<b>f</b> Guardar/Quitar el tema de marcadores'
         pin_unpin_topic: '<b>shift</b>+<b>p</b> Seleccionar/Deseleccionar como destacado'
         share_topic: '<b>shift</b>+<b>s</b> Compartir tema'
         share_post: '<b>s</b> Compartir post'
@@ -2151,6 +2224,9 @@ es:
         autobiographer:
           name: Autobiógrafo
           description: Detalló información en su <a href="/my/preferences">perfil</a> de usuario
+        anniversary:
+          name: Aniversario
+          description: Miembro activo desde hace un año y ha publicado al menos una vez
         nice_post:
           name: Buen post
           description: Recibió 10 "me gusta" en un post. Este distintivo puede ser concedido varias veces

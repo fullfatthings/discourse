@@ -22,7 +22,8 @@ class Admin::UsersController < Admin::AdminController
                                     :remove_group,
                                     :primary_group,
                                     :generate_api_key,
-                                    :revoke_api_key]
+                                    :revoke_api_key,
+                                    :anonymize]
 
   def index
     users = ::AdminUserIndexQuery.new(params).find_users
@@ -273,7 +274,7 @@ class Admin::UsersController < Admin::AdminController
     return render nothing: true, status: 404 unless SiteSetting.enable_sso
 
     sso = DiscourseSingleSignOn.parse("sso=#{params[:sso]}&sig=#{params[:sig]}")
-    user = sso.lookup_or_create_user(request.remote_ip)
+    user = sso.lookup_or_create_user
 
     render_serialized(user, AdminDetailedUserSerializer, root: false)
   end
@@ -331,6 +332,15 @@ class Admin::UsersController < Admin::AdminController
 
     render json: success_json.merge!(password_url: "#{Discourse.base_url}/users/password-reset/#{email_token.token}")
 
+  end
+
+  def anonymize
+    guardian.ensure_can_anonymize_user!(@user)
+    if user = UserAnonymizer.new(@user, current_user).make_anonymous
+      render json: success_json.merge(username: user.username)
+    else
+      render json: failed_json.merge(user: AdminDetailedUserSerializer.new(user, root: false).as_json)
+    end
   end
 
   private

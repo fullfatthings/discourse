@@ -6,16 +6,6 @@
 # https://www.transifex.com/projects/p/discourse-org/
 
 pl_PL:
-  stringex:
-    characters:
-      number: "-"
-  i18n:
-    transliterate:
-      rule:
-        ț: "t"
-        Ț: "t"
-        ș: "s"
-        Ș: "s"
   dates:
     short_date_no_year: "D MMM"
     short_date: "D MMM YYYY"
@@ -80,6 +70,8 @@ pl_PL:
     backup_file_should_be_tar_gz: "Plik z kopią zapasową powinien mieć postać archiwum .tar.gz."
     not_enough_space_on_disk: "Nie ma wystarczającej ilości wolnego miejsca, aby wczytać tę kopię zapasową."
   not_logged_in: "Aby to zrobić musisz się zalogować."
+  not_found: "Żądany URL lub źródło nie mógł zostać znaleziony."
+  invalid_access: "Nie jesteś uprawniony by zobaczyć żądane źródło."
   read_only_mode_enabled: "Strona jest w trybie tylko do odczytu. Możliwość interakcji jest wyłączona."
   too_many_replies:
     one: "Przepraszamy, ale nowi użytkownicy są tymczasowo ograniczeni do 1 odpowiedzi w ramach  jednego tematu."
@@ -170,14 +162,6 @@ pl_PL:
       Rozważałeś **[odwiedzenie swojego profilu](%{profile_path})** i ustawienie własnego obrazka, który będzie Cię reprezentował?
 
       Łatwiej czyta się dyskusje i znajduje ciekawych ludzi w rozmowach, gdy każdy ma unikalny awatar!
-    sequential_replies: |
-      ### Rozważ odpowiadanie na kilka postów jednocześnie
-
-      Zamiast umieszczać odpowiedzi jedna po drugiej w jednym temacie, rozważ zastosowanie jednej odpowiedzi, która zawiera cytaty lub odwołania przez @nazwy do poprzednich wpisów.
-
-      Możesz edytować swoją poprzednią odpowiedź aby dodać cytat przez zaznaczenie tekstu i kliknięcie <b>odpowiedz na ten cytat</b>.
-
-      O wiele łatwiej jest czytać tematy mające kilka wyczerpujących odpowiedzi niż wiele krótkich i zdawkowych.
     dominating_topic: |
       ### Pozwól innym dołączyć do rozmowy
 
@@ -220,6 +204,8 @@ pl_PL:
           attributes:
             password:
               common: "jest jednym z 10000 najczęściej używanych haseł. Wybierz inne, bardziej bezpieczne hasło."
+              same_as_username: "jest takie same jak Twoja nazwa użytkownika. Proszę użyj bardziej bezpiecznego hasła. "
+              same_as_email: "jest takie same jak Twój email. Proszę użyj bardziej bezpiecznego hasła. "
             ip_address:
               signup_not_allowed: "Rejestracja z tego konta jest niemożliwa."
         color_scheme_color:
@@ -498,7 +484,7 @@ pl_PL:
       xaxis: "Dzień"
       yaxis: "Liczba wizyt"
     signups:
-      title: "Użytkownicy"
+      title: "Nowi Użytkownicy"
       xaxis: "Dzień"
       yaxis: "Liczba nowych użytkowników"
     topics:
@@ -571,30 +557,39 @@ pl_PL:
     page_view_anon_reqs:
       title: "Anonimowy"
       xaxis: "Dzień"
-      yaxis: "Anonimowych wyświetleń strony"
+      yaxis: "Anonimowe zapytania API "
     page_view_logged_in_reqs:
       title: "Zalogowany"
       xaxis: "Dzień"
-      yaxis: "Wyświetleń zalogowanych użytkowników"
+      yaxis: "Zalogowano w zapytaniach API"
     page_view_crawler_reqs:
       title: "Bot indeksujący"
       xaxis: "Dzień"
-      yaxis: "Wyświetlenia botów indeksujących"
+      yaxis: "API robotów indeksujących żąda"
     page_view_total_reqs:
       title: "Łącznie"
       xaxis: "Dzień"
-      yaxis: "Łączna ilość wyświetleń"
+      yaxis: "Razem żądań API"
     http_background_reqs:
       title: "Tło"
       xaxis: "Dzień"
+      yaxis: "Żądania użyte w dynamicznej aktualizacji i śledzeniu"
     http_2xx_reqs:
+      title: "Status 2xx (OK)"
       xaxis: "Dzień"
+      yaxis: "Udane żądania (Status 2xx)"
     http_3xx_reqs:
+      title: "HTTP 3xx (Przekierowanie)"
       xaxis: "Dzień"
+      yaxis: "Przekierowanie żądań (Status 3xx)"
     http_4xx_reqs:
+      title: "HTTP 4xx (Błąd klienta)"
       xaxis: "Dzień"
+      yaxis: "Błędy klienta (Status 4xx)"
     http_5xx_reqs:
+      title: "HTTP 5xx (Błąd serwera)"
       xaxis: "Dzień"
+      yaxis: "Błędy serwera (Status 5xx)"
     http_total_reqs:
       title: "Łącznie"
       xaxis: "Dzień"
@@ -607,7 +602,6 @@ pl_PL:
     sidekiq_warning: 'Sidekiq nie działa. Wiele zadań, takich jak wysyłanie emaili, jest wykonywane asynchronicznie przez sidekiqa. Zagwarantuj, że przynajmniej jeden proces sidekiqa działa. <a href="https://github.com/mperham/sidekiq" target="_blank">Dowiedz się więcej o Sidekiqu</a>.'
     queue_size_warning: 'Długość kolejki prac to %{queue_size}. To dużo. Może to oznaczać problem z Sidekiq lub konieczność zwiększenia ilości jego procesów.'
     memory_warning: 'Twój serwer działa z mniej niż 1 GB pamięci całkowitej. Przynajmniej 1 GB pamięci jest zalecany.'
-    enable_google_logins_warning: "Używasz przestarzałej wersji uwierzytelniania: Google OpenID. Google  wyłączy OpenID 20 kwietnia 2015. Zacznij używać Google OAuth2 jak najszybciej. <a href='https://meta.discourse.org/t/configuring-google-login-for-discourse/15858' target='_blank'>Zobacz ten przewodnik, aby dowiedzieć się więcej</a>"
     both_googles_warning: "W ustawieniach serwisu włączono zarówno enable_google_logins jak i enable_google_oauth2_logins. Wyłącz enable_google_logins."
     google_oauth2_config_warning: 'Serwis umożliwia rejestrację i logowanie poprzez Google OAuth2 (enable_google_oauth2_logins), ale ''client id'' oraz ''client secret'' nie są jeszcze ustawione. Przejdź do <a href="/admin/site_settings">Ustawień</a> i wprowadź te wartości. <a href="https://meta.discourse.org/t/configuring-google-login-for-discourse/15858" target="_blank">Zobacz ten przewodnik, aby dowiedzieć się więcej</a>.'
     facebook_config_warning: 'Serwer jest skonfigurowany by pozwalać na rejestrację i logowanie za pomocą Facebooka (enable_facebook_logins), ale identyfikator i sekret aplikacji nie są ustawione. Przejdź do <a href="/admin/site_settings">ustawień serwisu</a> i zmień ustawienia. <a href="https://meta.discourse.org/t/configuring-facebook-login-for-discourse/13394" target="_blank">Zobacz ten poradnik by dowiedzieć się więcej</a>.'
@@ -617,7 +611,10 @@ pl_PL:
     image_magick_warning: 'Serwer jest skonfigurowany by tworzyć miniaturki dużych obrazów, ale ImageMagick nie jest zainstalowany. Zainstaluj ImageMagick za pomocą ulubionego menedżera pakietów lub <a href="http://www.imagemagick.org/script/binary-releases.php" target="_blank">pobierz najnowszą wersję</a>.'
     failing_emails_warning: '%{num_failed_jobs} prac emailowych nie powiodło się. Sprawdź plik config/discourse.conf i upewnij się, że ustawienia serwera poczty są poprawne. <a href="/sidekiq/retries" target="_blank">Zobacz nieudane prace w Sidekiqu</a>.'
     default_logo_warning: "Ustaw logo dla swojej strony. Zaktualizuj logo_url, logo_small_url i favicon_url tutaj: <a href='/admin/site_settings'>ustawienia strony</a>."
+    contact_email_missing: "Wprowadź kontaktowy adres e-mail strony, aby otrzymywać ważne powiadomienia w sprawie strony. Zaktualizuj to w <a href='/admin/site_settings'>Ustawieniach strony</a>. "
+    contact_email_invalid: "Kontaktowy adres email jest zły. Zaktualizuj to w  <a href='/admin/site_settings'>Ustawieniach strony</a>."
     title_nag: "Wprowadź nazwę swojej strony. Zaktualizuj tytuł w <a href='/admin/site_settings'>Ustawieniach strony</a>."
+    site_description_missing: "Wprowadź jedno zdanie opisujące Twoją stronę, które pojawi się w wynikach wyszukiwania. Zaktualizuj opis strony w <a href='/admin/site_settings'>Ustawieniach strony</a>."
     consumer_email_warning: "Twój serwis jest skonfigurowany by używać Gmaila (lub innego konsumenckiego serwisu poczty) do wysyłania emaili. <a href='http://support.google.com/a/bin/answer.py?hl=en&answer=166852' target='_blank'>Gmail ogranicza jak dużo wiadomości możesz wysłać</a>. Rozważ wykorzystanie dostawcy serwisu pocztowego jak mandrill.com by zagwarantować dostarczanie poczty."
   content_types:
     education_new_reply:
@@ -774,6 +771,8 @@ pl_PL:
     types:
       category: 'Kategorie'
       user: 'Użytkownicy'
+  sso:
+    account_not_approved: "Konto czeka na zatwierdzenie. Dostaniesz powiadomienie emailem, kiedy to się stanie."
   original_poster: "Autor pierwszego wpisu"
   most_posts: "Większość postów"
   most_recent_poster: "Autor najnowszego wpisu"
@@ -804,6 +803,7 @@ pl_PL:
     incorrect_username_email_or_password: "Niepoprawna nazwa użytkownika, email lub hasło"
     wait_approval: "Dziękujemy za rejestrację. Powiadomimy Cię gdy Twoje konto zostanie aktywowane."
     active: "Twoje konto zostało aktywowane i jest gotowe do użycia."
+    activate_email: "<p>Prawie gotowe! Wysłaliśmy email aktywacyjny na adres <b>%{email}</b>. Postępuj zgodnie z instrukcją z tego emaila, żeby dokończyć ten proces.</p><p>Jeśli email nie dotrze do Ciebie, sprawdź folder ze spamem, lub zaloguj sie jeszcze raz, żeby wysłać go ponownie.</p>"
     not_activated: "Nie możesz się jeszcze zalogować. Wysłaliśmy do Ciebie email aktywacyjny. Wykonaj instrukcje w nim zawarte by aktywować Twoje konto."
     errors: "%{errors}"
     not_available: "Niedostępny. Może spróbuj %{suggestion}?"

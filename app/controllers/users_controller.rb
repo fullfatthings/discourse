@@ -25,12 +25,20 @@ class UsersController < ApplicationController
                                                             :authorize_email,
                                                             :password_reset]
 
+  def index
+  end
+
   def show
     @user = fetch_user_from_params
     user_serializer = UserSerializer.new(@user, scope: guardian, root: 'user')
     if params[:stats].to_s == "false"
       user_serializer.omit_stats = true
     end
+    topic_id = params[:include_post_count_for].to_i
+    if topic_id != 0
+      user_serializer.topic_post_count = {topic_id => Post.where(topic_id: topic_id, user_id: @user.id).count }
+    end
+
     respond_to do |format|
       format.html do
         @restrict_fields = guardian.restrict_user_fields?(@user)
@@ -70,7 +78,10 @@ class UsersController < ApplicationController
 
     if params[:user_fields].present?
       params[:custom_fields] = {} unless params[:custom_fields].present?
-      UserField.where(editable: true).each do |f|
+
+      fields = UserField.all
+      fields = fields.where(editable: true) unless current_user.staff?
+      fields.each do |f|
         val = params[:user_fields][f.id.to_s]
         val = nil if val === "false"
         val = val[0...UserField.max_length] if val
@@ -93,7 +104,7 @@ class UsersController < ApplicationController
     guardian.ensure_can_edit_username!(user)
 
     # TODO proper error surfacing (result is a Model#save call)
-    result = user.change_username(params[:new_username], current_user)
+    result = UsernameChanger.change(user, params[:new_username], current_user)
     raise Discourse::InvalidParameters.new(:new_username) unless result
 
     render json: {
@@ -142,7 +153,7 @@ class UsersController < ApplicationController
 
   def my_redirect
     if current_user.present? && params[:path] =~ /^[a-z\-\/]+$/
-      redirect_to "/users/#{current_user.username}/#{params[:path]}"
+      redirect_to path("/users/#{current_user.username}/#{params[:path]}")
       return
     end
     raise Discourse::NotFound.new
